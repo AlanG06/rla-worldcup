@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RLA World Cup S4 — Roblox League Association</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep:     #050810;
+    --bg-card:     #0d1120;
+    --bg-card2:    #111827;
+    --border:      rgba(255,255,255,0.07);
+    --red:         #f4c430;
+    --red-glow:    rgba(244,196,48,0.35);
+    --gold:        #f4c430;
+    --gold-dim:    rgba(244,196,48,0.15);
+    --cyan:        #00d4ff;
+    --cyan-dim:    rgba(0,212,255,0.1);
+    --text:        #e8eaf0;
+    --text-muted:  #6b7280;
+    --text-dim:    #9ca3af;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(244,196,48,0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0,212,255,0.08) 0%, transparent 60%),
+      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(255,255,255,0.012) 60px, rgba(255,255,255,0.012) 61px),
+      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,0.012) 60px, rgba(255,255,255,0.012) 61px);
+    pointer-events:none;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(5,8,16,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-badge {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, #f4c430, #b8860b);
+    border-radius: 10px;
+    display: grid; place-items: center;
+    font-family: 'Bebas Neue';
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: white;
+    box-shadow: 0 0 20px var(--red-glow);
+    flex-shrink: 0;
+  }
+
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+
+  .logo-text .org {
+    font-family: 'Orbitron';
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .logo-text .name {
+    font-family: 'Bebas Neue';
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+
+  nav { display: flex; gap: 0.25rem; margin-left: auto; }
+
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'Rajdhani';
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .nav-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+  .nav-btn.active {
+    color: var(--gold);
+    background: rgba(244,196,48,0.1);
+  }
+
+  .nav-btn.active::after {
+    content:'';
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 2px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 4rem 2rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .hero-text { flex: 1; }
+
+  .hero-eyebrow {
+    font-family: 'Orbitron';
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-eyebrow::before {
+    content:'';
+    display: inline-block;
+    width: 24px; height: 2px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue';
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    line-height: 0.9;
+    color: var(--text);
+    letter-spacing: 3px;
+  }
+
+  .hero-title span { color: var(--red); }
+
+  .hero-subtitle {
+    font-size: 16px;
+    color: var(--text-dim);
+    margin-top: 16px;
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .hero-stats { display: flex; gap: 2rem; margin-top: 2.5rem; }
+
+  .stat-item { text-align: left; }
+
+  .stat-num {
+    font-family: 'Bebas Neue';
+    font-size: 2.5rem;
+    color: var(--red);
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .hero-trophy {
+    font-size: 120px;
+    opacity: 0.15;
+    line-height: 1;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 40px var(--gold));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+  }
+
+  /* ── CONTENT ── */
+  .content {
+    position: relative; z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeUp 0.4s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue';
+    font-size: 2.2rem;
+    letter-spacing: 3px;
+    color: var(--text);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  .section-tag {
+    font-family: 'Orbitron';
+    font-size: 10px;
+    color: var(--red);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid rgba(244,196,48,0.4);
+    border-radius: 4px;
+    background: rgba(244,196,48,0.08);
+  }
+
+  /* ── GROUPS ── */
+  .groups-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .groups-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .group-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardIn 0.5s ease forwards;
+  }
+
+  .group-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(244,196,48,0.3);
+  }
+
+  .group-card::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), transparent);
+  }
+
+  .group-card:nth-child(1) { animation-delay: 0.05s; }
+  .group-card:nth-child(2) { animation-delay: 0.1s; }
+  .group-card:nth-child(3) { animation-delay: 0.15s; }
+  .group-card:nth-child(4) { animation-delay: 0.2s; }
+  .group-card:nth-child(5) { animation-delay: 0.25s; }
+  .group-card:nth-child(6) { animation-delay: 0.3s; }
+
+  @keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+
+  .group-header {
+    padding: 18px 20px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .group-name {
+    font-family: 'Bebas Neue';
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    color: var(--text);
+  }
+
+  .group-badge {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, #f4c430, #b8860b);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: 'Bebas Neue';
+    font-size: 14px;
+    color: #050810;
+    box-shadow: 0 0 12px var(--red-glow);
+  }
+
+  .team-list { padding: 8px 0; }
+
+  .team-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .team-row:hover { background: rgba(255,255,255,0.04); }
+
+  .team-row::after {
+    content:'';
+    position: absolute;
+    bottom: 0; left: 20px; right: 20px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .team-row:last-child::after { display: none; }
+
+  .team-flag {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 30px;
+    text-align: center;
+  }
+
+  .team-info { flex: 1; }
+
+  .team-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+
+  .team-bombo {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .bombo-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .bombo-1 { background: var(--gold); box-shadow: 0 0 8px rgba(244,196,48,0.6); }
+  .bombo-2 { background: #a8edea; box-shadow: 0 0 8px rgba(168,237,234,0.6); }
+  .bombo-3 { background: #f97316; box-shadow: 0 0 8px rgba(249,115,22,0.6); }
+  .bombo-4 { background: #a78bfa; box-shadow: 0 0 8px rgba(167,139,250,0.6); }
+
+  /* ── LEGEND ── */
+  .legend { display: flex; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── INFO TAB ── */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .info-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .info-card-title {
+    font-family: 'Bebas Neue';
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .info-text { font-size: 15px; color: var(--text-dim); line-height: 1.8; }
+
+  .owner-list { display: flex; flex-direction: column; gap: 1rem; }
+
+  .owner-card {
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .owner-card:hover { border-color: rgba(244,196,48,0.3); }
+
+  .owner-avatar {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: grid; place-items: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .owner-av1 { background: linear-gradient(135deg, #e63946, #8b0000); }
+  .owner-av2 { background: linear-gradient(135deg, #f4c430, #b8860b); }
+  .owner-av3 { background: linear-gradient(135deg, #00d4ff, #0070a8); }
+
+  .owner-info .owner-role {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .owner-info .owner-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+
+  .rules-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+
+  .rule-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .rule-num {
+    font-family: 'Bebas Neue';
+    font-size: 1rem;
+    color: var(--red);
+    min-width: 22px;
+    letter-spacing: 1px;
+  }
+
+  /* ── COMING SOON ── */
+  .coming-soon { text-align: center; padding: 6rem 2rem; }
+  .coming-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.4; }
+
+  .coming-title {
+    font-family: 'Bebas Neue';
+    font-size: 2rem;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .coming-sub { font-size: 14px; color: var(--text-muted); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--red), transparent);
+    border-radius: 2px;
+    margin: 1.5rem 0;
+  }
+
+  /* ── TICKER ── */
+  .ticker-bar {
+    background: linear-gradient(90deg, #c9960c, #f4c430, #c9960c);
+    padding: 6px 0;
+    overflow: hidden;
+    position: relative; z-index: 1;
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 3rem;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    font-family: 'Orbitron';
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(5,8,16,0.85);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .ticker-item::before { content: '●'; font-size: 6px; opacity: 0.7; }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-brand {
+    font-family: 'Bebas Neue';
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+  }
+
+  .footer-copy { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; }
+
+  .footer-links { display: flex; gap: 1.5rem; }
+
+  .footer-links a {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--red); }
+
+  /* ══════════════════════════════════════
+     ── PARTIDOS TAB ──
+  ══════════════════════════════════════ */
+
+  /* Filtros */
+  .matches-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'Rajdhani';
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+  .filter-btn.active {
+    color: var(--gold);
+    background: rgba(244,196,48,0.1);
+    border-color: rgba(244,196,48,0.4);
+  }
+
+  .filter-btn.live-filter.active {
+    color: #f87171;
+    background: rgba(248,113,113,0.1);
+    border-color: rgba(248,113,113,0.4);
+  }
+
+  /* Jornada label */
+  .jornada-label {
+    font-family: 'Orbitron';
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin: 2rem 0 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .jornada-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .jornada-label:first-of-type { margin-top: 0; }
+
+  /* Tarjeta de partido */
+  .match-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem 1.75rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .match-card::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(244,196,48,0.4), transparent);
+  }
+
+  .match-card.live::before {
+    background: linear-gradient(90deg, #f87171, transparent);
+    animation: liveLine 2s ease-in-out infinite;
+  }
+
+  @keyframes liveLine {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+
+  .match-card:hover {
+    border-color: rgba(244,196,48,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .match-card.live {
+    border-color: rgba(248,113,113,0.35);
+    box-shadow: 0 0 0 1px rgba(248,113,113,0.1);
+  }
+
+  .match-card.done { opacity: 0.75; }
+  .match-card.done:hover { opacity: 1; }
+
+  /* Equipos */
+  .match-teams {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .match-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 100px;
+  }
+
+  .match-team img {
+    width: 36px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+  }
+
+  .match-team-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+
+  /* Marcador */
+  .match-score {
+    text-align: center;
+    min-width: 90px;
+  }
+
+  .match-score-num {
+    font-family: 'Bebas Neue';
+    font-size: 2.4rem;
+    color: var(--text);
+    letter-spacing: 4px;
+    line-height: 1;
+  }
+
+  .match-score-vs {
+    font-family: 'Bebas Neue';
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+  }
+
+  /* Meta (derecha) */
+  .match-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-width: 130px;
+  }
+
+  .match-badge {
+    font-family: 'Orbitron';
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    text-transform: uppercase;
+  }
+
+  .badge-upcoming {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  .badge-live {
+    background: rgba(248,113,113,0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(248,113,113,0.3);
+    animation: livePulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes livePulse {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.55; }
+  }
+
+  .badge-done {
+    background: rgba(99,153,34,0.12);
+    color: #86efac;
+    border: 1px solid rgba(99,153,34,0.25);
+  }
+
+  .match-date {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .match-group-tag {
+    font-family: 'Orbitron';
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* Sin partidos */
+  .no-matches {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  /* ══════════════════════════════════════
+     ── POSICIONES TAB ──
+  ══════════════════════════════════════ */
+  .standings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 800px) { .standings-grid { grid-template-columns: 1fr; } }
+
+  .standings-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+  .standings-card::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .standings-header {
+    padding: 16px 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .standings-group-name {
+    font-family: 'Bebas Neue';
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    color: var(--text);
+  }
+  .standings-group-badge {
+    width: 26px; height: 26px;
+    background: linear-gradient(135deg, #f4c430, #b8860b);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: 'Bebas Neue';
+    font-size: 13px;
+    color: #050810;
+    box-shadow: 0 0 10px var(--red-glow);
+  }
+  .standings-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .standings-table thead tr { border-bottom: 1px solid var(--border); }
+  .standings-table th {
+    font-family: 'Orbitron';
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    padding: 10px;
+    text-align: center;
+    font-weight: 400;
+  }
+  .standings-table th.th-team { text-align: left; padding-left: 20px; }
+  .standings-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .standings-table tbody tr:last-child { border-bottom: none; }
+  .standings-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  .standings-table tbody tr.qualify-direct { border-left: 3px solid rgba(134,239,172,0.55); }
+  .standings-table tbody tr.qualify-direct td.pos-num { color: #86efac; }
+  .standings-table tbody tr.qualify-third  { border-left: 3px solid rgba(244,196,48,0.45); }
+  .standings-table tbody tr.qualify-third  td.pos-num { color: var(--gold); }
+  .standings-table tbody tr.eliminated     { border-left: 3px solid rgba(248,113,113,0.3); }
+  .standings-table tbody tr.eliminated     td.pos-num { color: var(--text-muted); }
+
+  .standings-table td {
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+  .standings-table td.td-team { text-align: left; padding-left: 16px; }
+  .td-team-inner { display: flex; align-items: center; gap: 10px; }
+  .td-team-inner img { width: 24px; height: auto; object-fit: contain; flex-shrink: 0; }
+  .td-team-name { font-size: 14px; font-weight: 700; color: var(--text); letter-spacing: 0.3px; }
+  .pos-num { font-family: 'Bebas Neue'; font-size: 1rem; letter-spacing: 1px; min-width: 20px; text-align: center; }
+  .td-pts { font-family: 'Bebas Neue'; font-size: 1.15rem; letter-spacing: 1px; color: var(--gold) !important; }
+  .td-gd-pos  { color: #86efac !important; }
+  .td-gd-neg  { color: #fca5a5 !important; }
+  .td-gd-zero { color: var(--text-muted) !important; }
+
+  .qualify-legend { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .qualify-legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text-muted);
+    font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .qualify-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .qd-green { background: rgba(134,239,172,0.6); }
+  .qd-gold  { background: rgba(244,196,48,0.6); }
+  .qd-red   { background: rgba(248,113,113,0.4); }
+
+
+  /* ══════════════════════════════════════
+     ── BRACKET TAB ──
+  ══════════════════════════════════════ */
+  .bracket-scroll {
+    overflow-x: auto;
+    padding-bottom: 1.5rem;
+  }
+
+  .bracket-wrap {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    min-width: 1100px;
+  }
+
+  /* Columna de ronda */
+  .bracket-round {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .bracket-round-title {
+    font-family: 'Orbitron';
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0 8px 20px;
+  }
+
+  .bracket-round-matches {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 0;
+  }
+
+  /* Contenedor de cada enfrentamiento + conector */
+  .bracket-match-wrap {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex: 1;
+  }
+
+  /* El partido en sí */
+  .bracket-match {
+    flex: 1;
+    margin: 6px 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .bracket-match::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .bracket-match:hover {
+    border-color: rgba(244,196,48,0.3);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+
+  /* TBD / pendiente */
+  .bracket-team {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    position: relative;
+    transition: background 0.15s;
+  }
+
+  .bracket-team:first-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bracket-team:hover { background: rgba(255,255,255,0.03); }
+
+  .bracket-team.winner {
+    background: rgba(244,196,48,0.07);
+  }
+
+  .bracket-team.winner .bt-name {
+    color: var(--gold);
+  }
+
+  .bracket-team img {
+    width: 20px;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .bt-seed {
+    font-family: 'Orbitron';
+    font-size: 8px;
+    color: var(--text-muted);
+    min-width: 14px;
+    letter-spacing: 0;
+  }
+
+  .bt-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bt-tbd {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+
+  .bt-score {
+    font-family: 'Bebas Neue';
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    min-width: 16px;
+    text-align: right;
+  }
+
+  .bt-score.winner-score { color: var(--gold); }
+
+  /* Conectores SVG entre rondas */
+  .bracket-connector {
+    width: 24px;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+
+  /* Columna central del trofeo */
+  .bracket-champion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    min-width: 120px;
+    gap: 12px;
+  }
+
+  .champion-trophy {
+    opacity: 0.85;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .champion-label {
+    font-family: 'Bebas Neue';
+    font-size: 1rem;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-align: center;
+  }
+
+  .champion-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(244,196,48,0.4);
+    border-radius: 10px;
+    padding: 10px 16px;
+    text-align: center;
+    min-width: 110px;
+    box-shadow: 0 0 20px rgba(244,196,48,0.1);
+  }
+
+  .champion-card .bt-tbd {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .champion-name {
+    font-family: 'Bebas Neue';
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  /* Líneas conectoras entre rondas */
+  .connector-svg { overflow: visible; }
+
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-track" id="ticker">
+    <span class="ticker-item">RLA WORLD CUP S4</span>
+    <span class="ticker-item">24 SELECCIONES — 6 GRUPOS</span>
+    <span class="ticker-item">SPAIN IS HOST NATION</span>
+    <span class="ticker-item">GROUP STAGE BEGINS SOON</span>
+    <span class="ticker-item">ROBLOX LEAGUE ASSOCIATION</span>
+    <span class="ticker-item">OFFICIAL TOURNAMENT PAGE</span>
+    <span class="ticker-item">RLA WORLD CUP S4</span>
+    <span class="ticker-item">24 SELECCIONES — 6 GRUPOS</span>
+    <span class="ticker-item">SPAIN IS HOST NATION</span>
+    <span class="ticker-item">GROUP STAGE BEGINS SOON</span>
+    <span class="ticker-item">ROBLOX LEAGUE ASSOCIATION</span>
+    <span class="ticker-item">OFFICIAL TOURNAMENT PAGE</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <div class="logo-badge">RLA</div>
+      <div class="logo-text">
+        <span class="org">Roblox League Association</span>
+        <span class="name">World Cup S4</span>
+      </div>
+    </a>
+    <nav>
+      <button class="nav-btn" onclick="showTab('info', this)">General</button>
+      <button class="nav-btn active" onclick="showTab('grupos', this)">Grupos</button>
+      <button class="nav-btn" onclick="showTab('partidos', this)">Partidos</button>
+      <button class="nav-btn" onclick="showTab('posiciones', this)">Posiciones</button>
+      <button class="nav-btn" onclick="showTab('brackets', this)">Brackets</button>
+      <button class="nav-btn" onclick="showTab('resultados', this)">Resultados</button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Edición S4 · España</div>
+    <h1 class="hero-title">RLA<br><span>World</span><br>Cup</h1>
+    <p class="hero-subtitle">El torneo más grande de fútbol dentro de RF24 Hispana. 24 selecciones. 6 grupos. 1 campeón.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">24</div>
+        <div class="stat-label">Selecciones</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Grupos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Bombos</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-trophy">
+    <img src="WC RLA.png" alt="logo_wc" width="300px" height="500px">
+  </div>
+</section>
+
+<!-- CONTENT -->
+<main class="content">
+
+  <!-- ── INFO TAB ── -->
+  <div class="tab-panel" id="tab-info">
+    <div class="section-header">
+      <h2 class="section-title">Información General</h2>
+      <div class="section-line"></div>
+      <span class="section-tag">Liga Oficial</span>
+    </div>
+
+    <div class="info-grid">
+      <div>
+        <div class="info-card" style="margin-bottom:1.5rem">
+          <div class="info-card-title">Sobre la RLA</div>
+          <p class="info-text">La <strong>Roblox League Association</strong> es una liga hispana que gestiona el fútbol competitivo dentro de la plataforma RF24. La RLA World Cup es el evento más importante del calendario, reuniendo a las mejores selecciones en un formato de fase de grupos, octavos, cuartos, semis y gran final.</p>
+          <div class="divider"></div>
+          <p class="info-text">La edición S4 se celebra con sede en <strong>España</strong>, quien como país anfitrión ocupa directamente el <strong>Grupo A, Bombo 1</strong>. El torneo sigue el sistema de bombos para garantizar un sorteo equilibrado y competitivo.</p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title">Sistema de Bombos</div>
+          <div class="rules-list">
+            <div class="rule-item"><span class="rule-num">01</span>6 grupos en total: A, B, C, D, E y F con 4 selecciones cada uno.</div>
+            <div class="rule-item"><span class="rule-num">02</span>España, como anfitrión, queda fija en el Grupo A (Bombo 1).</div>
+            <div class="rule-item"><span class="rule-num">03</span>Primero se asignan los equipos del Bombo 1, uno por grupo.</div>
+            <div class="rule-item"><span class="rule-num">04</span>Luego Bombo 2, después Bombo 3 y finalmente Bombo 4.</div>
+            <div class="rule-item"><span class="rule-num">05</span>Cada grupo tendrá exactamente 1 selección de cada bombo.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="info-card">
+          <div class="info-card-title">Organización</div>
+          <div class="owner-list">
+            <div class="owner-card">
+              <div class="owner-avatar owner-av1">👑</div>
+              <div class="owner-info">
+                <div class="owner-role">Presidente</div>
+                <div class="owner-name">Alan</div>
+              </div>
+            </div>
+            <div class="owner-card">
+              <div class="owner-avatar owner-av2">⚽</div>
+              <div class="owner-info">
+                <div class="owner-role">Vice-Presidente</div>
+                <div class="owner-name">Humberto</div>
+              </div>
+            </div>
+            <div class="owner-card">
+              <div class="owner-avatar owner-av3">📋</div>
+              <div class="owner-info">
+                <div class="owner-role">Coordinador</div>
+                <div class="owner-name">Vixxo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GRUPOS TAB ── -->
+  <div class="tab-panel active" id="tab-grupos">
+    <div class="section-header">
+      <h2 class="section-title">Fase de Grupos</h2>
+      <div class="section-line"></div>
+      <span class="section-tag">6 Grupos · 24 Equipos</span>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot bombo-1"></div>Bombo 1</div>
+      <div class="legend-item"><div class="legend-dot bombo-2"></div>Bombo 2</div>
+      <div class="legend-item"><div class="legend-dot bombo-3"></div>Bombo 3</div>
+      <div class="legend-item"><div class="legend-dot bombo-4"></div>Bombo 4</div>
+    </div>
+
+    <div class="groups-grid" id="groupsGrid"></div>
+  </div>
+
+  <!-- ── PARTIDOS TAB ── -->
+  <div class="tab-panel" id="tab-partidos">
+    <div class="section-header">
+      <h2 class="section-title">Partidos</h2>
+      <div class="section-line"></div>
+      <span class="section-tag" id="matchesCount">0 Partidos</span>
+    </div>
+
+    <div class="matches-filters">
+      <button class="filter-btn active" onclick="filterMatches('all', this)">Todos</button>
+      <button class="filter-btn live-filter" onclick="filterMatches('live', this)">⬤ En Vivo</button>
+      <button class="filter-btn" onclick="filterMatches('upcoming', this)">Próximos</button>
+      <button class="filter-btn" onclick="filterMatches('done', this)">Finalizados</button>
+    </div>
+
+    <div id="matchesContainer"></div>
+  </div>
+
+
+  <!-- ── POSICIONES TAB ── -->
+  <div class="tab-panel" id="tab-posiciones">
+    <div class="section-header">
+      <h2 class="section-title">Tabla de Posiciones</h2>
+      <div class="section-line"></div>
+      <span class="section-tag">Fase de Grupos</span>
+    </div>
+
+    <div class="qualify-legend">
+      <div class="qualify-legend-item"><div class="qualify-dot qd-green"></div>Clasificado directo</div>
+      <div class="qualify-legend-item"><div class="qualify-dot qd-gold"></div>Posible clasificado (3er lugar)</div>
+      <div class="qualify-legend-item"><div class="qualify-dot qd-red"></div>Eliminado</div>
+    </div>
+
+    <div class="standings-grid" id="standingsGrid"></div>
+  </div>
+
+  <!-- ── BRACKETS TAB ── -->
+  <div class="tab-panel" id="tab-brackets">
+    <div class="section-header">
+      <h2 class="section-title">Bracket</h2>
+      <div class="section-line"></div>
+      <span class="section-tag">Eliminación Directa</span>
+    </div>
+    <div class="bracket-scroll">
+      <div class="bracket-wrap" id="bracketWrap"></div>
+    </div>
+  </div>
+
+  <!-- ── RESULTADOS TAB ── -->
+  <div class="tab-panel" id="tab-resultados">
+    <div class="coming-soon">
+      <div class="coming-icon">📊</div>
+      <div class="coming-title">Resultados — Próximamente</div>
+      <div class="coming-sub">Los resultados aparecerán aquí cuando comience el torneo.</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">RLA · Roblox League Association</div>
+    <div class="footer-links">
+      <a href="https://docs.google.com/document/d/1kRfJO-LGHy8E93SG0YOfs_rddfZiJLQCuks3Hyi8wyk/edit?usp=sharing">Reglamento</a>
+      <a href="#">Contacto</a>
+      <a href="https://discord.gg/hkzrcTGtw">Discord</a>
+    </div>
+    <div class="footer-copy">© 2026 RLA World Cup. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════
+   GRUPOS
+══════════════════════════════════════ */
+const GROUPS = [
+  { name:"GRUPO A", letter:"A", teams:[
+    { name:"España",        flag:"./Banderas/españa.png",   bombo:1 },
+    { name:"Uruguay",       flag:"./Banderas/uruguay.png",  bombo:2 },
+    { name:"Venezuela",     flag:"./Banderas/vene.png",     bombo:3 },
+    { name:"Bolivia",       flag:"./Banderas/boli.png",     bombo:4 },
+  ]},
+  { name:"GRUPO B", letter:"B", teams:[
+    { name:"Inglaterra",    flag:"./Banderas/inga.png",     bombo:1 },
+    { name:"Portugal",      flag:"./Banderas/portu.png",    bombo:2 },
+    { name:"Perú",          flag:"./Banderas/peru.png",     bombo:3 },
+    { name:"Centroamérica", flag:"./Banderas/ca.jpg",       bombo:4 },
+  ]},
+  { name:"GRUPO C", letter:"C", teams:[
+    { name:"Brasil",        flag:"./Banderas/brasil.png",   bombo:1 },
+    { name:"USA",           flag:"./Banderas/usa.png",      bombo:2 },
+    { name:"Ecuador",       flag:"./Banderas/ecu.png",      bombo:3 },
+    { name:"Georgia",       flag:"./Banderas/georg.png",    bombo:4 },
+  ]},
+  { name:"GRUPO D", letter:"D", teams:[
+    { name:"Alemania",      flag:"./Banderas/germa.png",    bombo:1 },
+    { name:"Colombia",      flag:"./Banderas/colombi.png",  bombo:2 },
+    { name:"Dinamarca",     flag:"./Banderas/dinama.webp",  bombo:3 },
+    { name:"Macedonia",     flag:"./Banderas/macedo.png",   bombo:4 },
+  ]},
+  { name:"GRUPO E", letter:"E", teams:[
+    { name:"Argentina",     flag:"./Banderas/arge.png",     bombo:1 },
+    { name:"México",        flag:"./Banderas/mexi.png",     bombo:2 },
+    { name:"Chile",         flag:"./Banderas/chile.png",    bombo:3 },
+    { name:"Turquía",       flag:"./Banderas/turkia.png",   bombo:4 },
+  ]},
+  { name:"GRUPO F", letter:"F", teams:[
+    { name:"Italia",        flag:"./Banderas/itali.png",    bombo:1 },
+    { name:"Países Bajos",  flag:"./Banderas/neth.png",     bombo:2 },
+    { name:"Marruecos",     flag:"./Banderas/morocco.png",  bombo:3 },
+    { name:"Polonia",       flag:"./Banderas/poland.png",   bombo:4 },
+  ]},
+];
+
+/* ══════════════════════════════════════
+   PARTIDOS
+   ─────────────────────────────────────
+   status: "upcoming" | "live" | "done"
+   homeScore / awayScore: solo si live o done
+   Para agregar jornadas: copia el bloque
+   { jornada: "...", games: [...] }
+══════════════════════════════════════ */
+const MATCHES = [
+  {
+    jornada: "Jornada 1 · Fase de Grupos",
+    games: [
+      // ── GRUPO A ──
+      {
+        grupo:     "Grupo A · Partido Inaugural",
+        homeTeam:  "España",
+        homeFlag:  "./Banderas/españa.png",
+        awayTeam:  "Uruguay",
+        awayFlag:  "./Banderas/uruguay.png",
+        date:      "9 May · 14:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Venezuela",
+        homeFlag:  "./Banderas/vene.png",
+        awayTeam:  "Bolivia",
+        awayFlag:  "./Banderas/boli.png",
+        date:      "10 May · 18:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO B ──
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Inglaterra",
+        homeFlag:  "./Banderas/inga.png",
+        awayTeam:  "Portugal",
+        awayFlag:  "./Banderas/portu.png",
+        date:      "9 May · 15:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Perú",
+        homeFlag:  "./Banderas/peru.png",
+        awayTeam:  "Centroamérica",
+        awayFlag:  "./Banderas/ca.jpg",
+        date:      "10 May · 19:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO C ──
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Brasil",
+        homeFlag:  "./Banderas/brasil.png",
+        awayTeam:  "Estados Unidos",
+        awayFlag:  "./Banderas/usa.png",
+        date:      "9 May · 17:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Ecuador",
+        homeFlag:  "./Banderas/ecu.png",
+        awayTeam:  "Georgia",
+        awayFlag:  "./Banderas/georg.png",
+        date:      "10 May · 16:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO D ──
+      {
+        grupo:     "Grupo D",
+        homeTeam:  "Alemania",
+        homeFlag:  "./Banderas/germa.png",
+        awayTeam:  "Colombia",
+        awayFlag:  "./Banderas/colombi.png",
+        date:      "9 May · 18:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo D",
+        homeTeam:  "Dinamarca",
+        homeFlag:  "./Banderas/dinama.webp",
+        awayTeam:  "Macedonia",
+        awayFlag:  "./Banderas/macedo.png",
+        date:      "10 May · 15:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO E ──
+      {
+        grupo:     "Grupo E",
+        homeTeam:  "Argentina",
+        homeFlag:  "./Banderas/arge.png",
+        awayTeam:  "México",
+        awayFlag:  "./Banderas/mexi.png",
+        date:      "9 May · 19:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo E",
+        homeTeam:  "Chile",
+        homeFlag:  "./Banderas/chile.png",
+        awayTeam:  "Turquía",
+        awayFlag:  "./Banderas/turkia.png",
+        date:      "10 May · 17:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO F ──
+      {
+        grupo:     "Grupo F",
+        homeTeam:  "Italia",
+        homeFlag:  "./Banderas/itali.png",
+        awayTeam:  "Países Bajos",
+        awayFlag:  "./Banderas/neth.png",
+        date:      "9 May · 16:00 CDMX",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo F",
+        homeTeam:  "Marruecos",
+        homeFlag:  "./Banderas/morocco.png",
+        awayTeam:  "Polonia",
+        awayFlag:  "./Banderas/poland.png",
+        date:      "Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+    ]
+  },
+  // ── Agrega más jornadas aquí con el mismo formato ──
+];
+
+
+/* ══════════════════════════════════════
+   POSICIONES
+   ─────────────────────────────────────
+   Cada equipo: { name, flag, pj, g, e, p, gf, gc }
+   pj=jugados, g=ganados, e=empatados, p=perdidos
+   gf=goles favor, gc=goles contra
+   El JS calcula pts y dg automáticamente.
+   Orden dentro de cada grupo = posición final.
+   qualify: "direct" | "third" | "eliminated"
+══════════════════════════════════════ */
+const STANDINGS = [
+  {
+    group: "GRUPO A", letter: "A",
+    teams: [
+      { name:"España",        flag:"./Banderas/españa.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Uruguay",       flag:"./Banderas/uruguay.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Venezuela",     flag:"./Banderas/vene.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
+      { name:"Bolivia",       flag:"./Banderas/boli.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
+    ]
+  },
+  {
+    group: "GRUPO B", letter: "B",
+    teams: [
+      { name:"Inglaterra",    flag:"./Banderas/inga.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Portugal",      flag:"./Banderas/portu.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Perú",          flag:"./Banderas/peru.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
+      { name:"Centroamérica", flag:"./Banderas/ca.jpg",       pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
+    ]
+  },
+  {
+    group: "GRUPO C", letter: "C",
+    teams: [
+      { name:"Brasil",        flag:"./Banderas/brasil.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Estados Unidos",flag:"./Banderas/usa.png",      pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Ecuador",       flag:"./Banderas/ecu.png",      pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
+      { name:"Georgia",       flag:"./Banderas/georg.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
+    ]
+  },
+  {
+    group: "GRUPO D", letter: "D",
+    teams: [
+      { name:"Alemania",      flag:"./Banderas/germa.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Colombia",      flag:"./Banderas/colombi.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Dinamarca",     flag:"./Banderas/dinama.webp",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
+      { name:"Macedonia",     flag:"./Banderas/macedo.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
+    ]
+  },
+  {
+    group: "GRUPO E", letter: "E",
+    teams: [
+      { name:"Argentina",     flag:"./Banderas/arge.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"México",        flag:"./Banderas/mexi.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Chile",         flag:"./Banderas/chile.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
+      { name:"Turquía",       flag:"./Banderas/turkia.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
+    ]
+  },
+  {
+    group: "GRUPO F", letter: "F",
+    teams: [
+      { name:"Italia",        flag:"./Banderas/itali.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Países Bajos",  flag:"./Banderas/neth.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
+      { name:"Marruecos",     flag:"./Banderas/morocco.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
+      { name:"Polonia",       flag:"./Banderas/poland.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
+    ]
+  },
+];
+
+/* ── Render Standings ── */
+function renderStandings() {
+  const grid = document.getElementById('standingsGrid');
+  grid.innerHTML = STANDINGS.map(grp => {
+    const qualifyClass = { direct:'qualify-direct', third:'qualify-third', eliminated:'eliminated' };
+    const rows = grp.teams.map((t, i) => {
+      const pts = (t.g * 3) + t.e;
+      const dg  = t.gf - t.gc;
+      const dgClass = dg > 0 ? 'td-gd-pos' : dg < 0 ? 'td-gd-neg' : 'td-gd-zero';
+      const dgStr   = dg > 0 ? '+' + dg : String(dg);
+      return `
+        <tr class="${qualifyClass[t.qualify] || ''}">
+          <td class="pos-num">${i + 1}</td>
+          <td class="td-team">
+            <div class="td-team-inner">
+              <img src="${t.flag}" alt="${t.name}">
+              <span class="td-team-name">${t.name}</span>
+            </div>
+          </td>
+          <td>${t.pj}</td>
+          <td>${t.g}</td>
+          <td>${t.e}</td>
+          <td>${t.p}</td>
+          <td>${t.gf}</td>
+          <td>${t.gc}</td>
+          <td class="${dgClass}">${dgStr}</td>
+          <td class="td-pts">${pts}</td>
+        </tr>
+      `;
+    }).join('');
+
+    return `
+      <div class="standings-card">
+        <div class="standings-header">
+          <span class="standings-group-name">${grp.group}</span>
+          <div class="standings-group-badge">${grp.letter}</div>
+        </div>
+        <table class="standings-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th class="th-team">Equipo</th>
+              <th title="Partidos Jugados">PJ</th>
+              <th title="Ganados">G</th>
+              <th title="Empatados">E</th>
+              <th title="Perdidos">P</th>
+              <th title="Goles a Favor">GF</th>
+              <th title="Goles en Contra">GC</th>
+              <th title="Diferencia de Goles">DG</th>
+              <th title="Puntos">PTS</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }).join('');
+}
+
+
+/* ══════════════════════════════════════
+   BRACKET
+   ─────────────────────────────────────
+   Cada partido: { home, away }
+   Equipo: { name, flag, score, winner:true/false }
+   Si el partido aún no se juega deja name:"" y flag:""
+   winner:true resalta al ganador en dorado
+   score:"" si no hay resultado aún
+══════════════════════════════════════ */
+const BRACKET = {
+  r16: [
+    // Partido 1
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    // Partido 2
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    // Partido 3
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    // Partido 4
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    // Partido 5
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    // Partido 6
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    // Partido 7
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    // Partido 8
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+  ],
+  qf: [
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+  ],
+  sf: [
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+  ],
+  final: [
+    { home:{ name:"", flag:"", score:"", winner:false }, away:{ name:"", flag:"", score:"", winner:false } },
+  ],
+  champion: { name:"", flag:"" },
+};
+
+function teamHTML(t, side) {
+  const imgTag    = t.flag ? `<img src="${t.flag}" alt="${t.name}">` : '';
+  const nameHTML  = t.name
+    ? `<span class="bt-name">${t.name}</span>`
+    : `<span class="bt-tbd">Por definir</span>`;
+  const scoreHTML = `<span class="bt-score ${t.winner ? 'winner-score' : ''}">${t.score}</span>`;
+  return `
+    <div class="bracket-team ${t.winner ? 'winner' : ''}">
+      ${imgTag}${nameHTML}${scoreHTML}
+    </div>`;
+}
+
+function matchHTML(m) {
+  return `
+    <div class="bracket-match-wrap">
+      <div class="bracket-match">
+        ${teamHTML(m.home)}
+        ${teamHTML(m.away)}
+      </div>
+    </div>`;
+}
+
+function renderBracket() {
+  const wrap = document.getElementById('bracketWrap');
+  if (!wrap) return;
+
+  const rounds = [
+    { key:'r16',   label:'Octavos de Final',  matches: BRACKET.r16 },
+    { key:'qf',    label:'Cuartos de Final',   matches: BRACKET.qf  },
+    { key:'sf',    label:'Semifinales',         matches: BRACKET.sf  },
+    { key:'final', label:'Final',               matches: BRACKET.final },
+  ];
+
+  let html = '';
+
+  rounds.forEach((round, ri) => {
+    html += `
+      <div class="bracket-round">
+        <div class="bracket-round-title">${round.label}</div>
+        <div class="bracket-round-matches">
+          ${round.matches.map(m => matchHTML(m)).join('')}
+        </div>
+      </div>`;
+
+    // Conector SVG entre rondas (no después de la final)
+    if (ri < rounds.length - 1) {
+      const inCount  = round.matches.length;
+      const outCount = rounds[ri + 1].matches.length;
+      html += buildConnectors(inCount, outCount);
+    }
+  });
+
+  // Trofeo campeón
+  const champName = BRACKET.champion.name || '';
+  const champFlag = BRACKET.champion.flag ? `<img src="${BRACKET.champion.flag}" style="width:28px;margin-bottom:4px">` : '';
+  html += `
+    <div class="bracket-champion">
+      <div class="champion-trophy"><img src="WC RLA.png" alt="Trofeo" style="width:80px;height:auto;opacity:0.85;filter:drop-shadow(0 0 16px rgba(244,196,48,0.5))"></div>
+      <div class="champion-label">Campeón</div>
+      <div class="champion-card">
+        ${champFlag}
+        ${champName
+          ? `<div class="champion-name">${champName}</div>`
+          : `<div class="bt-tbd">Por definir</div>`}
+      </div>
+    </div>`;
+
+  wrap.innerHTML = html;
+}
+
+function buildConnectors(inCount, outCount) {
+  // Simple decorative vertical bar
+  return `<div class="bracket-connector">
+    <svg class="connector-svg" width="24" height="100%" style="width:24px;height:100%">
+      <line x1="0" y1="50%" x2="24" y2="50%" stroke="rgba(244,196,48,0.15)" stroke-width="1"/>
+    </svg>
+  </div>`;
+}
+
+/* ── Render Grupos ── */
+function renderGroups() {
+  const grid = document.getElementById('groupsGrid');
+  grid.innerHTML = GROUPS.map(g => `
+    <div class="group-card">
+      <div class="group-header">
+        <span class="group-name">${g.name}</span>
+        <div class="group-badge">${g.letter}</div>
+      </div>
+      <div class="team-list">
+        ${g.teams.map(t => `
+          <div class="team-row">
+            <div class="team-flag">
+              <img src="${t.flag}" alt="${t.name}" width="26">
+            </div>
+            <div class="team-info">
+              <div class="team-name">${t.name}</div>
+              <div class="team-bombo">Bombo ${t.bombo}</div>
+            </div>
+            <div class="bombo-dot bombo-${t.bombo}"></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ── Render Partidos ── */
+let currentFilter = 'all';
+
+function renderMatches(filter) {
+  filter = filter || currentFilter;
+  const container = document.getElementById('matchesContainer');
+  const countTag  = document.getElementById('matchesCount');
+
+  let total = 0;
+  let html  = '';
+
+  MATCHES.forEach(jornada => {
+    const games = filter === 'all'
+      ? jornada.games
+      : jornada.games.filter(g => g.status === filter);
+
+    if (!games.length) return;
+    total += games.length;
+
+    html += `<p class="jornada-label">${jornada.jornada}</p>`;
+
+    games.forEach(m => {
+      const badgeClass = { upcoming:'badge-upcoming', live:'badge-live', done:'badge-done' }[m.status];
+      const badgeText  = { upcoming:'Próximo', live:'⬤ En vivo', done:'Finalizado' }[m.status];
+      const scoreHTML  = (m.status === 'live' || m.status === 'done')
+        ? `<div class="match-score-num">${m.homeScore} – ${m.awayScore}</div>`
+        : `<div class="match-score-vs">VS</div>`;
+
+      html += `
+        <div class="match-card ${m.status}">
+          <div class="match-teams">
+            <div class="match-team">
+              <img src="${m.homeFlag}" alt="${m.homeTeam}">
+              <span class="match-team-name">${m.homeTeam}</span>
+            </div>
+            <div class="match-score">${scoreHTML}</div>
+            <div class="match-team">
+              <img src="${m.awayFlag}" alt="${m.awayTeam}">
+              <span class="match-team-name">${m.awayTeam}</span>
+            </div>
+          </div>
+          <div class="match-meta">
+            <span class="match-badge ${badgeClass}">${badgeText}</span>
+            <span class="match-date">${m.date}</span>
+            <span class="match-group-tag">${m.grupo}</span>
+          </div>
+        </div>
+      `;
+    });
+  });
+
+  container.innerHTML = html || `<div class="no-matches">No hay partidos en esta categoría.</div>`;
+  countTag.textContent = `${total} Partido${total !== 1 ? 's' : ''}`;
+}
+
+function filterMatches(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMatches(filter);
+}
+
+/* ── Tab switching ── */
+function showTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  (btn || event.target).classList.add('active');
+}
+
+/* ── Init ── */
+renderGroups();
+renderMatches();
+renderStandings();
+renderBracket();
+</script>
+</body>
+</html>
