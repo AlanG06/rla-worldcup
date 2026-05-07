@@ -1489,6 +1489,49 @@
 </footer>
 
 <script>
+
+const MANTENIMIENTO = false; // ← cambia a true para activar
+if (MANTENIMIENTO) {
+  document.body.innerHTML = `
+    <div style="
+      min-height:100vh; display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      background:#050810; text-align:center; padding:2rem;
+      font-family:'Rajdhani',sans-serif;
+    ">
+      <img src="WC RLA.png" style="width:110px;opacity:0.9;margin-bottom:2rem;
+        filter:drop-shadow(0 0 30px rgba(244,196,48,0.4));
+        animation:float 4s ease-in-out infinite;">
+      <div style="font-family:'Orbitron',sans-serif;font-size:10px;
+        letter-spacing:3px;color:#f4c430;border:1px solid rgba(244,196,48,0.4);
+        background:rgba(244,196,48,0.08);padding:5px 16px;border-radius:20px;
+        margin-bottom:1.5rem;">
+        ● SITIO EN MANTENIMIENTO
+      </div>
+      <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,10vw,5rem);
+        letter-spacing:4px;color:#e8eaf0;line-height:0.95;margin-bottom:1rem;">
+        VOLVEMOS<br><span style="color:#f4c430">PRONTO</span>
+      </h1>
+      <p style="color:#9ca3af;font-size:15px;max-width:400px;line-height:1.7;margin-bottom:2rem;">
+        Estamos realizando actualizaciones en el sitio oficial de la
+        <strong style="color:#e8eaf0">RLA World Cup S4</strong>.
+        Estaremos de vuelta en breve.
+      </p>
+      <a href="https://discord.gg/hkzrcTGtw" target="_blank" style="
+        font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;
+        letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;
+        padding:10px 24px;border-radius:8px;
+        background:linear-gradient(135deg,#f4c430,#b8860b);color:#050810;">
+        🎮 Únete al Discord
+      </a>
+      <style>
+        @keyframes float {
+          0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)}
+        }
+      </style>
+    </div>
+  `;
+}
 /* ══════════════════════════════════════
    GRUPOS
 ══════════════════════════════════════ */
@@ -1550,7 +1593,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/españa.png",
         awayTeam:  "Uruguay",
         awayFlag:  "./Banderas/uruguay.png",
-        date:      "9 May · POR DEFINIRSE",
+        date:      "9 May · 14:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
