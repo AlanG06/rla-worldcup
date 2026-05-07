@@ -1132,6 +1132,157 @@
   /* Líneas conectoras entre rondas */
   .connector-svg { overflow: visible; }
 
+
+  /* ══════════════════════════════════════
+     ── RESPONSIVE MÓVIL ──
+  ══════════════════════════════════════ */
+
+  /* ── Nav: scroll horizontal en móvil ── */
+  @media (max-width: 640px) {
+    header { padding: 0 1rem; }
+
+    .nav-inner { gap: 0.75rem; height: 56px; }
+
+    .logo-text .org { display: none; }
+    .logo-text .name { font-size: 16px; }
+    .logo-badge { width: 34px; height: 34px; font-size: 14px; }
+
+    nav {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 0.15rem;
+      flex-shrink: 1;
+    }
+    nav::-webkit-scrollbar { display: none; }
+
+    .nav-btn {
+      font-size: 11px;
+      padding: 6px 10px;
+      letter-spacing: 0.8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      flex-direction: column;
+      padding: 2rem 1rem 1rem;
+      gap: 1.5rem;
+      text-align: center;
+    }
+
+    .hero-eyebrow { justify-content: center; }
+    .hero-eyebrow::before { display: none; }
+
+    .hero-title { font-size: clamp(3rem, 15vw, 4.5rem); }
+
+    .hero-subtitle {
+      font-size: 14px;
+      max-width: 100%;
+      margin: 10px auto 0;
+    }
+
+    .hero-stats { justify-content: center; gap: 1.5rem; margin-top: 1.5rem; }
+
+    .hero-trophy { display: none; }
+
+    /* ── Content padding ── */
+    .content { padding: 0 1rem 3rem; }
+
+    /* ── Section header ── */
+    .section-header { flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+    .section-title  { font-size: 1.7rem; }
+    .section-line   { display: none; }
+
+    /* ── Grupos: 1 columna ── */
+    .groups-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+    /* ── Info grid: 1 columna ── */
+    .info-grid { grid-template-columns: 1fr; }
+    .info-card { padding: 1.25rem; }
+
+    /* ── Partidos ── */
+    .match-card {
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1rem;
+      align-items: stretch;
+    }
+
+    .match-teams { gap: 0.75rem; }
+
+    .match-team { min-width: 70px; }
+    .match-team img { width: 28px; }
+    .match-team-name { font-size: 12px; }
+
+    .match-score-num { font-size: 1.8rem; }
+
+    .match-meta {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      min-width: unset;
+      border-top: 1px solid var(--border);
+      padding-top: 0.6rem;
+    }
+
+    .match-group-tag { display: none; }
+
+    /* ── Posiciones: 1 columna ── */
+    .standings-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+    /* Ocultar columnas menos importantes en móvil */
+    .standings-table th:nth-child(7),
+    .standings-table th:nth-child(8),
+    .standings-table td:nth-child(7),
+    .standings-table td:nth-child(8) { display: none; }
+
+    .standings-table th,
+    .standings-table td { padding: 10px 6px; font-size: 13px; }
+    .standings-table th.th-team,
+    .standings-table td.td-team { padding-left: 10px; }
+    .td-team-name { font-size: 12px; }
+    .td-team-inner img { width: 18px; }
+
+    /* ── Bracket: scroll horizontal ── */
+    .bracket-scroll { margin: 0 -1rem; padding: 0 1rem 1.5rem; }
+    .bracket-wrap   { min-width: 800px; }
+
+    .bt-name { font-size: 11px; }
+    .bracket-match { margin: 4px 2px; }
+    .bracket-team  { padding: 7px 8px; gap: 5px; }
+
+    /* ── Footer ── */
+    .footer-inner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .footer-links { justify-content: center; flex-wrap: wrap; gap: 1rem; }
+
+    /* ── Legend ── */
+    .legend         { gap: 0.75rem; }
+    .qualify-legend { gap: 0.75rem; }
+
+    /* ── Filtros partidos ── */
+    .matches-filters { gap: 0.4rem; }
+    .filter-btn { font-size: 11px; padding: 6px 10px; letter-spacing: 0.8px; }
+  }
+
+  /* ── Tablet (641–900px) ── */
+  @media (min-width: 641px) and (max-width: 900px) {
+    .hero { padding: 3rem 1.5rem 2rem; gap: 2rem; }
+    .hero-trophy img { width: 200px; }
+    .content { padding: 0 1.5rem 3rem; }
+    .groups-grid { grid-template-columns: repeat(2, 1fr); }
+    .standings-grid { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .match-meta { min-width: 100px; }
+  }
+
 </style>
 </head>
 <body>
@@ -1142,13 +1293,13 @@
     <span class="ticker-item">RLA WORLD CUP S4</span>
     <span class="ticker-item">24 SELECCIONES — 6 GRUPOS</span>
     <span class="ticker-item">SPAIN IS HOST NATION</span>
-    <span class="ticker-item">GROUP STAGE BEGINS SOON</span>
+    <span class="ticker-item">JORNADA 1 · 9 Y 10 DE MAYO</span>
     <span class="ticker-item">ROBLOX LEAGUE ASSOCIATION</span>
     <span class="ticker-item">OFFICIAL TOURNAMENT PAGE</span>
     <span class="ticker-item">RLA WORLD CUP S4</span>
     <span class="ticker-item">24 SELECCIONES — 6 GRUPOS</span>
     <span class="ticker-item">SPAIN IS HOST NATION</span>
-    <span class="ticker-item">GROUP STAGE BEGINS SOON</span>
+    <span class="ticker-item">JORNADA 1 · 9 Y 10 DE MAYO</span>
     <span class="ticker-item">ROBLOX LEAGUE ASSOCIATION</span>
     <span class="ticker-item">OFFICIAL TOURNAMENT PAGE</span>
   </div>
@@ -1169,8 +1320,6 @@
       <button class="nav-btn active" onclick="showTab('grupos', this)">Grupos</button>
       <button class="nav-btn" onclick="showTab('partidos', this)">Partidos</button>
       <button class="nav-btn" onclick="showTab('posiciones', this)">Posiciones</button>
-      <button class="nav-btn" onclick="showTab('brackets', this)">Brackets</button>
-      <button class="nav-btn" onclick="showTab('resultados', this)">Resultados</button>
     </nav>
   </div>
 </header>
@@ -1180,7 +1329,7 @@
   <div class="hero-text">
     <div class="hero-eyebrow">Edición S4 · España</div>
     <h1 class="hero-title">RLA<br><span>World</span><br>Cup</h1>
-    <p class="hero-subtitle">El torneo más grande de fútbol dentro de RF24 Hispana. 24 selecciones. 6 grupos. 1 campeón.</p>
+    <p class="hero-subtitle">El torneo más grande de fútbol dentro de RF24 Hispana. 24 selecciones. 6 grupos. 1 campeón. La Jornada 1 comienza el 9 de mayo.</p>
     <div class="hero-stats">
       <div class="stat-item">
         <div class="stat-num">24</div>
@@ -1209,7 +1358,7 @@
     <div class="section-header">
       <h2 class="section-title">Información General</h2>
       <div class="section-line"></div>
-      <span class="section-tag">Liga RF Fan</span>
+      <span class="section-tag">Liga Oficial</span>
     </div>
 
     <div class="info-grid">
@@ -1318,26 +1467,11 @@
     <div class="standings-grid" id="standingsGrid"></div>
   </div>
 
-  <!-- ── BRACKETS TAB ── -->
-  <div class="tab-panel" id="tab-brackets">
-    <div class="section-header">
-      <h2 class="section-title">Bracket</h2>
-      <div class="section-line"></div>
-      <span class="section-tag">Eliminación Directa</span>
-    </div>
-    <div class="bracket-scroll">
-      <div class="bracket-wrap" id="bracketWrap"></div>
-    </div>
-  </div>
+  <!-- ── BRACKETS TAB (oculto hasta fase eliminatoria) ── -->
+  <div class="tab-panel" id="tab-brackets" style="display:none"></div>
 
-  <!-- ── RESULTADOS TAB ── -->
-  <div class="tab-panel" id="tab-resultados">
-    <div class="coming-soon">
-      <div class="coming-icon">📊</div>
-      <div class="coming-title">Resultados — Próximamente</div>
-      <div class="coming-sub">Los resultados aparecerán aquí cuando comience el torneo.</div>
-    </div>
-  </div>
+  <!-- ── RESULTADOS TAB (oculto hasta fase eliminatoria) ── -->
+  <div class="tab-panel" id="tab-resultados" style="display:none"></div>
 
 </main>
 
@@ -1416,7 +1550,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/españa.png",
         awayTeam:  "Uruguay",
         awayFlag:  "./Banderas/uruguay.png",
-        date:      "9 May · HORARIO POR DECIDIRSE",
+        date:      "9 May · 14:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
