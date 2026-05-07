@@ -24,12 +24,25 @@
 
   * { margin:0; padding:0; box-sizing:border-box; }
 
+  img {
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    user-select: none;
+  }
+
   body {
     background: var(--bg-deep);
     color: var(--text);
     font-family: 'Rajdhani', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   body::before {
@@ -1285,7 +1298,7 @@
 
 </style>
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false">
 
 <!-- TICKER -->
 <div class="ticker-bar">
@@ -1532,6 +1545,27 @@ if (MANTENIMIENTO) {
     </div>
   `;
 }
+
+// Protección básica del lado del cliente
+function disablePageCopyActions() {
+  document.addEventListener('contextmenu', event => event.preventDefault());
+  document.addEventListener('dragstart', event => event.preventDefault());
+  document.addEventListener('selectstart', event => event.preventDefault());
+  document.addEventListener('copy', event => event.preventDefault());
+  document.addEventListener('keydown', event => {
+    const blocked = event.ctrlKey || event.metaKey;
+    const key = event.key.toLowerCase();
+    if (blocked && ['s', 'u', 'c', 'x', 'a'].includes(key)) {
+      event.preventDefault();
+    }
+    if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && ['i', 'j', 'c'].includes(key))) {
+      event.preventDefault();
+    }
+  });
+}
+
+disablePageCopyActions();
+
 /* ══════════════════════════════════════
    GRUPOS
 ══════════════════════════════════════ */
