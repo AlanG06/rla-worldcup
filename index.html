@@ -1280,6 +1280,160 @@
     .match-meta { min-width: 100px; }
   }
 
+
+  /* ══════════════════════════════════════
+     ── SELECCIONES TAB ──
+  ══════════════════════════════════════ */
+  .selecciones-group-label {
+    font-family: 'Orbitron';
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin: 2rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .selecciones-group-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .selecciones-group-label:first-of-type { margin-top: 0; }
+
+  .selecciones-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .selecciones-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .selecciones-grid { grid-template-columns: 1fr; }
+  }
+
+  .seleccion-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+
+  .seleccion-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .seleccion-card:hover {
+    border-color: rgba(244,196,48,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  }
+
+  .seleccion-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .seleccion-flag img {
+    width: 34px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    flex-shrink: 0;
+  }
+
+  .seleccion-country {
+    font-family: 'Bebas Neue';
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .seleccion-bombo {
+    font-family: 'Orbitron';
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .seleccion-players {
+    padding: 6px 0;
+  }
+
+  .player-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .player-row:last-child { border-bottom: none; }
+  .player-row:hover { background: rgba(255,255,255,0.03); }
+
+  .player-num {
+    font-family: 'Bebas Neue';
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    min-width: 18px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .player-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.3px;
+  }
+
+  .player-pos {
+    font-family: 'Orbitron';
+    font-size: 8px;
+    letter-spacing: 1px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  .pos-por { background: rgba(248,113,113,0.12); color: #fca5a5; border: 1px solid rgba(248,113,113,0.25); }
+  .pos-def { background: rgba(96,165,250,0.12); color: #93c5fd; border: 1px solid rgba(96,165,250,0.25); }
+  .pos-med { background: rgba(134,239,172,0.12); color: #86efac; border: 1px solid rgba(134,239,172,0.25); }
+  .pos-del { background: rgba(244,196,48,0.12); color: #f4c430; border: 1px solid rgba(244,196,48,0.25); }
+
+  .seleccion-empty {
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    font-style: italic;
+  }
+
 </style>
 </head>
 <body>
@@ -1317,6 +1471,7 @@
       <button class="nav-btn active" onclick="showTab('grupos', this)">Grupos</button>
       <button class="nav-btn" onclick="showTab('partidos', this)">Partidos</button>
       <button class="nav-btn" onclick="showTab('posiciones', this)">Posiciones</button>
+      <button class="nav-btn" onclick="showTab('selecciones', this)">Selecciones</button>
     </nav>
   </div>
 </header>
@@ -1463,6 +1618,17 @@
     <div class="standings-grid" id="standingsGrid"></div>
   </div>
 
+
+  <!-- ── SELECCIONES TAB ── -->
+  <div class="tab-panel" id="tab-selecciones">
+    <div class="section-header">
+      <h2 class="section-title">Selecciones</h2>
+      <div class="section-line"></div>
+      <span class="section-tag">18 Equipos</span>
+    </div>
+    <div id="seleccionesContainer"></div>
+  </div>
+
   <!-- ── BRACKETS TAB (oculto hasta fase eliminatoria) ── -->
   <div class="tab-panel" id="tab-brackets" style="display:none"></div>
 
@@ -1545,7 +1711,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/españa.png",
         awayTeam:  "Inglaterra",
         awayFlag:  "./Banderas/inga.png",
-        date:      "15 May · 14:30 GMT-6",
+        date:      "15 May · 14:30 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -1556,7 +1722,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/ecu.png",
         awayTeam:  "Argentina",
         awayFlag:  "./Banderas/arge.png",
-        date:      "15 May · 16:00 GMT-6",
+        date:      "15 May · 16:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -1567,7 +1733,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/neth.png",
         awayTeam:  "Venezuela",
         awayFlag:  "./Banderas/vene.png",
-        date:      "15 May · 18:00 GMT-6",
+        date:      "15 May · 18:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -1580,7 +1746,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/chile.png",
         awayTeam:  "Estados Unidos",
         awayFlag:  "./Banderas/usa.png",
-        date:      "16 May · 16:00 GMT-6",
+        date:      "16 May · 16:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -1591,7 +1757,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/colombi.png",
         awayTeam:  "Bolivia",
         awayFlag:  "./Banderas/boli.png",
-        date:      "16 May · 17:00 GMT-6",
+        date:      "16 May · 17:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -1602,7 +1768,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/ca.jpg",
         awayTeam:  "Perú",
         awayFlag:  "./Banderas/peru.png",
-        date:      "16 May · 18:00 GMT-6",
+        date:      "16 May · 18:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -1615,7 +1781,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/dinama.webp",
         awayTeam:  "Turquía",
         awayFlag:  "./Banderas/turkia.png",
-        date:      "16 May · 11:00 GMT-6",
+        date:      "17 May · 11:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -1626,7 +1792,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/mexi.png",
         awayTeam:  "Marruecos",
         awayFlag:  "./Banderas/morocco.png",
-        date:      "17 May · 12:00 GMT-6",
+        date:      "17 May · 12:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -1637,7 +1803,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/itali.png",
         awayTeam:  "Uruguay",
         awayFlag:  "./Banderas/uruguay.png",
-        date:      "17 May · 13:00 GMT-6",
+        date:      "17 May · 13:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -1878,6 +2044,146 @@ function buildConnectors(inCount, outCount) {
   </div>`;
 }
 
+
+/* ══════════════════════════════════════
+   SELECCIONES
+   ─────────────────────────────────────
+   pos: "POR" | "DEF" | "MED" | "DEL"
+   Agrega / edita jugadores en cada equipo.
+   Para dejar un equipo sin plantilla confirmada,
+   deja players: [] y aparecerá "Plantilla por confirmar".
+══════════════════════════════════════ */
+const SELECCIONES = [
+  // ══ GRUPO A ══
+  {
+    group: "Grupo A",
+    teams: [
+      {
+        name: "España", flag: "./Banderas/españa.png", bombo: 1,
+        players: [
+          // { name: "Nombre Apellido", pos: "POR" },
+        ]
+      },
+      {
+        name: "Ecuador", flag: "./Banderas/ecu.png", bombo: 1,
+        players: []
+      },
+      {
+        name: "Países Bajos", flag: "./Banderas/neth.png", bombo: 2,
+        players: []
+      },
+      {
+        name: "Venezuela", flag: "./Banderas/vene.png", bombo: 2,
+        players: []
+      },
+      {
+        name: "Argentina", flag: "./Banderas/arge.png", bombo: 3,
+        players: []
+      },
+      {
+        name: "Inglaterra", flag: "./Banderas/inga.png", bombo: 3,
+        players: []
+      },
+    ]
+  },
+  // ══ GRUPO B ══
+  {
+    group: "Grupo B",
+    teams: [
+      {
+        name: "Chile", flag: "./Banderas/chile.png", bombo: 1,
+        players: []
+      },
+      {
+        name: "Colombia", flag: "./Banderas/colombi.png", bombo: 1,
+        players: []
+      },
+      {
+        name: "Centroamérica", flag: "./Banderas/ca.jpg", bombo: 2,
+        players: []
+      },
+      {
+        name: "Perú", flag: "./Banderas/peru.png", bombo: 2,
+        players: []
+      },
+      {
+        name: "Bolivia", flag: "./Banderas/boli.png", bombo: 3,
+        players: []
+      },
+      {
+        name: "Estados Unidos", flag: "./Banderas/usa.png", bombo: 3,
+        players: []
+      },
+    ]
+  },
+  // ══ GRUPO C ══
+  {
+    group: "Grupo C",
+    teams: [
+      {
+        name: "Dinamarca", flag: "./Banderas/dinama.webp", bombo: 1,
+        players: []
+      },
+      {
+        name: "México", flag: "./Banderas/mexi.png", bombo: 1,
+        players: []
+      },
+      {
+        name: "Italia", flag: "./Banderas/itali.png", bombo: 2,
+        players: []
+      },
+      {
+        name: "Uruguay", flag: "./Banderas/uruguay.png", bombo: 2,
+        players: []
+      },
+      {
+        name: "Marruecos", flag: "./Banderas/morocco.png", bombo: 3,
+        players: []
+      },
+      {
+        name: "Turquía", flag: "./Banderas/turkia.png", bombo: 3,
+        players: []
+      },
+    ]
+  },
+];
+
+/* ── Render Selecciones ── */
+function renderSelecciones() {
+  const container = document.getElementById('seleccionesContainer');
+  if (!container) return;
+
+  const posClass = { POR:'pos-por', DEF:'pos-def', MED:'pos-med', DEL:'pos-del' };
+  const posLabel = { POR:'POR', DEF:'DEF', MED:'MED', DEL:'DEL' };
+
+  container.innerHTML = SELECCIONES.map(grp => {
+    const cards = grp.teams.map(t => {
+      const playersHTML = t.players.length
+        ? t.players.map((p, i) => `
+            <div class="player-row">
+              <span class="player-num">${i + 1}</span>
+              <span class="player-name">${p.name}</span>
+              <span class="player-pos ${posClass[p.pos] || ''}">${posLabel[p.pos] || p.pos}</span>
+            </div>`).join('')
+        : `<div class="seleccion-empty">Plantilla por confirmar</div>`;
+
+      return `
+        <div class="seleccion-card">
+          <div class="seleccion-header">
+            <div class="seleccion-flag"><img src="${t.flag}" alt="${t.name}"></div>
+            <span class="seleccion-country">${t.name}</span>
+            <span class="seleccion-bombo">Bombo ${t.bombo}</span>
+          </div>
+          <div class="seleccion-players">${playersHTML}</div>
+        </div>`;
+    }).join('');
+
+    return `
+      <p class="selecciones-group-label">${grp.group}</p>
+      <div class="selecciones-grid">${cards}</div>`;
+  }).join('');
+}
+
 /* ── Render Grupos ── */
 function renderGroups() {
   const grid = document.getElementById('groupsGrid');
@@ -1980,6 +2286,7 @@ renderGroups();
 renderMatches();
 renderStandings();
 renderBracket();
+renderSelecciones();
 </script>
 </body>
 </html>
