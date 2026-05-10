@@ -1435,9 +1435,33 @@
     font-style: italic;
   }
 
+
+  /* ── PROTECCIÓN DE IMÁGENES ── */
+  img {
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+  }
+
+  /* Capa invisible sobre imágenes para bloquear clic derecho */
+  .img-protect {
+    position: relative;
+    display: inline-block;
+  }
+  .img-protect::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    cursor: default;
+  }
+
 </style>
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
 
 <!-- TICKER -->
 <div class="ticker-bar">
@@ -1653,6 +1677,40 @@
 
 <script>
 /* ══════════════════════════════════════
+   PROTECCIÓN DE CONTENIDO
+══════════════════════════════════════ */
+(function() {
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('dragstart',   e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+  document.addEventListener('copy',        e => e.preventDefault());
+  document.addEventListener('cut',         e => e.preventDefault());
+  document.addEventListener('drop',        e => e.preventDefault());
+  document.addEventListener('dragover',    e => e.preventDefault());
+
+  document.addEventListener('mousedown', e => {
+    if (e.button === 2) { e.preventDefault(); return false; }
+  });
+
+  document.addEventListener('keydown', e => {
+    const ctrl = e.ctrlKey || e.metaKey;
+    const key  = e.key.toLowerCase();
+    if (ctrl && ['s','u','c','x','a','p'].includes(key)) { e.preventDefault(); return false; }
+    if (e.key === 'F12') { e.preventDefault(); return false; }
+    if (ctrl && e.shiftKey && ['i','j','c','k'].includes(key)) { e.preventDefault(); return false; }
+  });
+
+  // Bloquear touch largo en móvil (equivalente a clic derecho)
+  let touchTimer;
+  document.addEventListener('touchstart', e => {
+    if (e.touches.length > 1) { e.preventDefault(); return; }
+    touchTimer = setTimeout(() => e.preventDefault(), 500);
+  }, { passive: false });
+  document.addEventListener('touchend',  () => clearTimeout(touchTimer));
+  document.addEventListener('touchmove', () => clearTimeout(touchTimer));
+})();
+
+/* ══════════════════════════════════════
    GRUPOS
 ══════════════════════════════════════ */
 const GROUPS = [
@@ -1687,7 +1745,7 @@ const GROUPS = [
       { name:"Italia",        flag:"./Banderas/itali.png",    bombo:2 },
       { name:"Uruguay",       flag:"./Banderas/uruguay.png",  bombo:2 },
       { name:"Marruecos",     flag:"./Banderas/morocco.png",  bombo:3 },
-      { name:"Turquía",       flag:"./Banderas/turkia.png",   bombo:3 },
+      { name:"Georgia",        flag:"./Banderas/georg.png",    bombo:3 },
     ]
   },
 ];
@@ -1780,8 +1838,8 @@ const MATCHES = [
         grupo:     "Grupo C",
         homeTeam:  "Dinamarca",
         homeFlag:  "./Banderas/dinama.webp",
-        awayTeam:  "Turquía",
-        awayFlag:  "./Banderas/turkia.png",
+        awayTeam:  "Georgia",
+        awayFlag:  "./Banderas/georg.png",
         date:      "17 May · 11:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
@@ -1857,7 +1915,7 @@ const STANDINGS = [
       { name:"Italia",        flag:"./Banderas/itali.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
       { name:"Uruguay",       flag:"./Banderas/uruguay.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
       { name:"Marruecos",     flag:"./Banderas/morocco.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
-      { name:"Turquía",       flag:"./Banderas/turkia.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
+      { name:"Georgia",        flag:"./Banderas/georg.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
     ]
   },
 ];
@@ -2413,7 +2471,7 @@ const SELECCIONES = [
         ]
       },
       {
-        name: "Turquía", flag: "./Banderas/turkia.png", bombo: 3,
+        name: "Georgia", flag: "./Banderas/georg.png", bombo: 3,
         players: []
       },
     ]
