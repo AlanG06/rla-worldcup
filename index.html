@@ -1435,9 +1435,152 @@
     font-style: italic;
   }
 
+
+  /* ── PROTECCIÓN DE IMÁGENES ── */
+  img {
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+  }
+
+  /* Capa invisible sobre imágenes para bloquear clic derecho */
+  .img-protect {
+    position: relative;
+    display: inline-block;
+  }
+  .img-protect::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    cursor: default;
+  }
+
+
+  /* ══════════════════════════════════════
+     ── NOTICIAS TAB ──
+  ══════════════════════════════════════ */
+  .noticias-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 900px) { .noticias-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .noticias-grid { grid-template-columns: 1fr; } }
+
+  .noticia-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+
+  .noticia-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .noticia-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    border-color: rgba(244,196,48,0.25);
+  }
+
+  /* Colores por categoría */
+  .noticia-card.cat-oficial::before  { background: linear-gradient(90deg, #f4c430, transparent); }
+  .noticia-card.cat-rumor::before    { background: linear-gradient(90deg, #a78bfa, transparent); }
+  .noticia-card.cat-polemica::before { background: linear-gradient(90deg, #f87171, transparent); }
+  .noticia-card.cat-dato::before     { background: linear-gradient(90deg, #60a5fa, transparent); }
+  .noticia-card.cat-humor::before    { background: linear-gradient(90deg, #34d399, transparent); }
+
+  .noticia-cat {
+    font-family: 'Orbitron';
+    font-size: 9px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    display: inline-block;
+  }
+
+  .cat-oficial  .noticia-cat { background: rgba(244,196,48,0.12);  color: #f4c430;  border: 1px solid rgba(244,196,48,0.3); }
+  .cat-rumor    .noticia-cat { background: rgba(167,139,250,0.12); color: #a78bfa;  border: 1px solid rgba(167,139,250,0.3); }
+  .cat-polemica .noticia-cat { background: rgba(248,113,113,0.12); color: #f87171;  border: 1px solid rgba(248,113,113,0.3); }
+  .cat-dato     .noticia-cat { background: rgba(96,165,250,0.12);  color: #60a5fa;  border: 1px solid rgba(96,165,250,0.3); }
+  .cat-humor    .noticia-cat { background: rgba(52,211,153,0.12);  color: #34d399;  border: 1px solid rgba(52,211,153,0.3); }
+
+  .noticia-body {
+    padding: 1.25rem 1.25rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .noticia-title {
+    font-family: 'Bebas Neue';
+    font-size: 1.25rem;
+    letter-spacing: 1.5px;
+    color: var(--text);
+    line-height: 1.15;
+    margin-top: 0.75rem;
+    padding: 0 1.25rem;
+  }
+
+  .noticia-text {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    padding: 0.6rem 1.25rem 1.25rem;
+    flex: 1;
+  }
+
+  .noticia-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+
+  .noticia-date {
+    font-family: 'Orbitron';
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .noticia-autor {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  .noticias-empty {
+    text-align: center;
+    padding: 5rem 2rem;
+    color: var(--text-muted);
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
 </style>
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
 
 <!-- TICKER -->
 <div class="ticker-bar">
@@ -1473,6 +1616,7 @@
       <button class="nav-btn" onclick="showTab('partidos', this)">Partidos</button>
       <button class="nav-btn" onclick="showTab('posiciones', this)">Posiciones</button>
       <button class="nav-btn" onclick="showTab('selecciones', this)">Selecciones</button>
+      <button class="nav-btn" onclick="showTab('noticias', this)">Noticias</button>
     </nav>
   </div>
 </header>
@@ -1630,6 +1774,17 @@
     <div id="seleccionesContainer"></div>
   </div>
 
+
+  <!-- ── NOTICIAS TAB ── -->
+  <div class="tab-panel" id="tab-noticias">
+    <div class="section-header">
+      <h2 class="section-title">Noticias</h2>
+      <div class="section-line"></div>
+      <span class="section-tag" id="noticiasCount">0 Noticias</span>
+    </div>
+    <div class="noticias-grid" id="noticiasGrid"></div>
+  </div>
+
   <!-- ── BRACKETS TAB (oculto hasta fase eliminatoria) ── -->
   <div class="tab-panel" id="tab-brackets" style="display:none"></div>
 
@@ -1652,6 +1807,40 @@
 </footer>
 
 <script>
+/* ══════════════════════════════════════
+   PROTECCIÓN DE CONTENIDO
+══════════════════════════════════════ */
+(function() {
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('dragstart',   e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+  document.addEventListener('copy',        e => e.preventDefault());
+  document.addEventListener('cut',         e => e.preventDefault());
+  document.addEventListener('drop',        e => e.preventDefault());
+  document.addEventListener('dragover',    e => e.preventDefault());
+
+  document.addEventListener('mousedown', e => {
+    if (e.button === 2) { e.preventDefault(); return false; }
+  });
+
+  document.addEventListener('keydown', e => {
+    const ctrl = e.ctrlKey || e.metaKey;
+    const key  = e.key.toLowerCase();
+    if (ctrl && ['s','u','c','x','a','p'].includes(key)) { e.preventDefault(); return false; }
+    if (e.key === 'F12') { e.preventDefault(); return false; }
+    if (ctrl && e.shiftKey && ['i','j','c','k'].includes(key)) { e.preventDefault(); return false; }
+  });
+
+  // Bloquear touch largo en móvil (equivalente a clic derecho)
+  let touchTimer;
+  document.addEventListener('touchstart', e => {
+    if (e.touches.length > 1) { e.preventDefault(); return; }
+    touchTimer = setTimeout(() => e.preventDefault(), 500);
+  }, { passive: false });
+  document.addEventListener('touchend',  () => clearTimeout(touchTimer));
+  document.addEventListener('touchmove', () => clearTimeout(touchTimer));
+})();
+
 /* ══════════════════════════════════════
    GRUPOS
 ══════════════════════════════════════ */
@@ -1687,7 +1876,7 @@ const GROUPS = [
       { name:"Italia",        flag:"./Banderas/itali.png",    bombo:2 },
       { name:"Uruguay",       flag:"./Banderas/uruguay.png",  bombo:2 },
       { name:"Marruecos",     flag:"./Banderas/morocco.png",  bombo:3 },
-      { name:"Turquía",       flag:"./Banderas/turkia.png",   bombo:3 },
+      { name:"Turquía",        flag:"./Banderas/turkia.png",   bombo:3 },
     ]
   },
 ];
@@ -1857,7 +2046,7 @@ const STANDINGS = [
       { name:"Italia",        flag:"./Banderas/itali.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
       { name:"Uruguay",       flag:"./Banderas/uruguay.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
       { name:"Marruecos",     flag:"./Banderas/morocco.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
-      { name:"Turquía",       flag:"./Banderas/turkia.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
+      { name:"Turquía",        flag:"./Banderas/turkia.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
     ]
   },
 ];
@@ -2127,7 +2316,6 @@ const SELECCIONES = [
           { name: "StormGames34", pos: "DEF" },
           { name: "josue171082", pos: "DEF" },
           { name: "67joel67", pos: "DEF" },
-          { name: "fftekuuu", pos: "DEF" },
           { name: "sereklover", pos: "DEL" },
           { name: "josuchu", pos: "DEL" },
           { name: "XxpaulscholesxX", pos: "DEL" },
@@ -2457,6 +2645,70 @@ function renderSelecciones() {
   }).join('');
 }
 
+
+/* ══════════════════════════════════════
+   NOTICIAS
+   ─────────────────────────────────────
+   cat: "oficial" | "rumor" | "polemica" | "dato" | "humor"
+   Las noticias se muestran en el orden del array
+   (la primera es la más reciente arriba).
+   Para agregar una noticia copia el bloque { } y
+   rellena title, text, date, autor y cat.
+══════════════════════════════════════ */
+const NOTICIAS = [
+  {
+    cat:   "oficial",
+    title: "La RLA World Cup S4 ya tiene fecha de inicio",
+    text:  "La Jornada 1 de la fase de grupos arranca el 15 de mayo. España, como país anfitrión, abre el torneo enfrentando a Inglaterra en el partido inaugural del Grupo A.",
+    date:  "11 May 2026",
+    autor: "Redacción RLA",
+  },
+  {
+    cat:   "rumor",
+    title: "Nonea fuera de la seleccion de chile?",
+    text:  "Según varias fuentes, la meta de 100 firmas ya fue superada. La afición critica al delantero por su falta de definición, su poca aportación defensiva y su bajo rendimiento en la final de la Libertadores, donde muchos lo señalan como responsable en los dos primeros goles recibidos.",
+    date:  "11 May 2026",
+    autor: "Redacción RLA",
+  },
+];
+
+/* ── Render Noticias ── */
+function renderNoticias() {
+  const grid  = document.getElementById('noticiasGrid');
+  const count = document.getElementById('noticiasCount');
+  if (!grid) return;
+
+  const catLabel = {
+    oficial:  'Oficial',
+    rumor:    'Rumor',
+    polemica: 'Polémica',
+    dato:     'Dato',
+    humor:    'Humor',
+  };
+
+  if (!NOTICIAS.length) {
+    grid.innerHTML = '<div class="noticias-empty">No hay noticias publicadas aún.</div>';
+    count.textContent = '0 Noticias';
+    return;
+  }
+
+  grid.innerHTML = NOTICIAS.map(n => `
+    <div class="noticia-card cat-${n.cat}">
+      <div class="noticia-body">
+        <span class="noticia-cat">${catLabel[n.cat] || n.cat}</span>
+      </div>
+      <div class="noticia-title">${n.title}</div>
+      <div class="noticia-text">${n.text}</div>
+      <div class="noticia-footer">
+        <span class="noticia-date">${n.date}</span>
+        <span class="noticia-autor">${n.autor}</span>
+      </div>
+    </div>
+  `).join('');
+
+  count.textContent = `${NOTICIAS.length} Noticia${NOTICIAS.length !== 1 ? 's' : ''}`;
+}
+
 /* ── Render Grupos ── */
 function renderGroups() {
   const grid = document.getElementById('groupsGrid');
@@ -2560,6 +2812,7 @@ renderMatches();
 renderStandings();
 renderBracket();
 renderSelecciones();
+renderNoticias();
 </script>
 </body>
 </html>
