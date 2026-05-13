@@ -1265,6 +1265,7 @@
     .qualify-legend { gap: 0.75rem; }
 
     /* ── Filtros partidos ── */
+    .matches-toolbar { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
     .matches-filters { gap: 0.4rem; }
     .filter-btn { font-size: 11px; padding: 6px 10px; letter-spacing: 0.8px; }
   }
@@ -1578,6 +1579,59 @@
     letter-spacing: 1px;
   }
 
+
+  /* ── SUBTABS PARTIDOS ── */
+  .matches-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+  }
+
+  .subtabs {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .matches-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+
+  .subtab-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'Rajdhani';
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .subtab-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+  .subtab-btn.active {
+    color: var(--gold);
+    background: rgba(244,196,48,0.1);
+    border-color: rgba(244,196,48,0.4);
+  }
+
+  @media (max-width: 640px) {
+    .subtabs { gap: 0.3rem; }
+    .subtab-btn { font-size: 11px; padding: 6px 10px; }
+  }
+
 </style>
 </head>
 <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
@@ -1735,11 +1789,21 @@
       <span class="section-tag" id="matchesCount">0 Partidos</span>
     </div>
 
-    <div class="matches-filters">
-      <button class="filter-btn active" onclick="filterMatches('all', this)">Todos</button>
-      <button class="filter-btn live-filter" onclick="filterMatches('live', this)">⬤ En Vivo</button>
-      <button class="filter-btn" onclick="filterMatches('upcoming', this)">Próximos</button>
-      <button class="filter-btn" onclick="filterMatches('done', this)">Finalizados</button>
+    <!-- Subtabs + filtros en la misma fila -->
+    <div class="matches-toolbar">
+      <div class="subtabs">
+        <button class="subtab-btn active" onclick="showFecha(0, this)">Fecha 1</button>
+        <button class="subtab-btn" onclick="showFecha(1, this)">Fecha 2</button>
+        <button class="subtab-btn" onclick="showFecha(2, this)">Fecha 3</button>
+        <button class="subtab-btn" onclick="showFecha(3, this)">Fecha 4</button>
+        <button class="subtab-btn" onclick="showFecha(4, this)">Fecha 5</button>
+      </div>
+      <div class="matches-filters">
+        <button class="filter-btn active" onclick="filterMatches('all', this)">Todos</button>
+        <button class="filter-btn live-filter" onclick="filterMatches('live', this)">⬤ En Vivo</button>
+        <button class="filter-btn" onclick="filterMatches('upcoming', this)">Próximos</button>
+        <button class="filter-btn" onclick="filterMatches('done', this)">Finalizados</button>
+      </div>
     </div>
 
     <div id="matchesContainer"></div>
@@ -1891,7 +1955,7 @@ const GROUPS = [
 ══════════════════════════════════════ */
 const MATCHES = [
   {
-    jornada: "Jornada 1 · Fase de Grupos",
+    jornada: "Fecha 1 · Fase de Grupos",
     games: [
 
       // ── GRUPO A ──
@@ -1999,6 +2063,436 @@ const MATCHES = [
         awayScore: 0,
       },
 
+    ]
+  },
+
+
+  {
+    jornada: "Fecha 2 · Fase de Grupos",
+    games: [
+      // ── GRUPO A · 22 May (Viernes) ──
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Ecuador",
+        homeFlag:  "./Banderas/ecu.png",
+        awayTeam:  "España",
+        awayFlag:  "./Banderas/españa.png",
+        date:      "22 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Países Bajos",
+        homeFlag:  "./Banderas/neth.png",
+        awayTeam:  "Argentina",
+        awayFlag:  "./Banderas/arge.png",
+        date:      "22 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Inglaterra",
+        homeFlag:  "./Banderas/inga.png",
+        awayTeam:  "Venezuela",
+        awayFlag:  "./Banderas/vene.png",
+        date:      "22 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO B · 23 May (Sábado) ──
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Colombia",
+        homeFlag:  "./Banderas/colombi.png",
+        awayTeam:  "Chile",
+        awayFlag:  "./Banderas/chile.png",
+        date:      "23 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Centroamérica",
+        homeFlag:  "./Banderas/ca.jpg",
+        awayTeam:  "Bolivia",
+        awayFlag:  "./Banderas/boli.png",
+        date:      "23 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Estados Unidos",
+        homeFlag:  "./Banderas/usa.png",
+        awayTeam:  "Perú",
+        awayFlag:  "./Banderas/peru.png",
+        date:      "23 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO C · 24 May (Domingo) ──
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "México",
+        homeFlag:  "./Banderas/mexi.png",
+        awayTeam:  "Dinamarca",
+        awayFlag:  "./Banderas/dinama.webp",
+        date:      "24 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Italia",
+        homeFlag:  "./Banderas/itali.png",
+        awayTeam:  "Marruecos",
+        awayFlag:  "./Banderas/morocco.png",
+        date:      "24 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Turquía",
+        homeFlag:  "./Banderas/turkia.png",
+        awayTeam:  "Uruguay",
+        awayFlag:  "./Banderas/uruguay.png",
+        date:      "24 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+    ]
+  },
+  {
+    jornada: "Fecha 3 · Fase de Grupos",
+    games: [
+      // ── GRUPO A · 29 May (Viernes) ──
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Países Bajos",
+        homeFlag:  "./Banderas/neth.png",
+        awayTeam:  "España",
+        awayFlag:  "./Banderas/españa.png",
+        date:      "29 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Ecuador",
+        homeFlag:  "./Banderas/ecu.png",
+        awayTeam:  "Inglaterra",
+        awayFlag:  "./Banderas/inga.png",
+        date:      "29 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Venezuela",
+        homeFlag:  "./Banderas/vene.png",
+        awayTeam:  "Argentina",
+        awayFlag:  "./Banderas/arge.png",
+        date:      "29 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO B · 30 May (Sábado) ──
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Centroamérica",
+        homeFlag:  "./Banderas/ca.jpg",
+        awayTeam:  "Chile",
+        awayFlag:  "./Banderas/chile.png",
+        date:      "30 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Colombia",
+        homeFlag:  "./Banderas/colombi.png",
+        awayTeam:  "Estados Unidos",
+        awayFlag:  "./Banderas/usa.png",
+        date:      "30 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Perú",
+        homeFlag:  "./Banderas/peru.png",
+        awayTeam:  "Bolivia",
+        awayFlag:  "./Banderas/boli.png",
+        date:      "30 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO C · 31 May (Domingo) ──
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Italia",
+        homeFlag:  "./Banderas/itali.png",
+        awayTeam:  "Dinamarca",
+        awayFlag:  "./Banderas/dinama.webp",
+        date:      "31 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Turquía",
+        homeFlag:  "./Banderas/turkia.png",
+        awayTeam:  "México",
+        awayFlag:  "./Banderas/mexi.png",
+        date:      "31 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Uruguay",
+        homeFlag:  "./Banderas/uruguay.png",
+        awayTeam:  "Marruecos",
+        awayFlag:  "./Banderas/morocco.png",
+        date:      "31 May · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+    ]
+  },
+  {
+    jornada: "Fecha 4 · Fase de Grupos",
+    games: [
+      // ── GRUPO A · 5 Jun (Viernes) ──
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Venezuela",
+        homeFlag:  "./Banderas/vene.png",
+        awayTeam:  "España",
+        awayFlag:  "./Banderas/españa.png",
+        date:      "5 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Países Bajos",
+        homeFlag:  "./Banderas/neth.png",
+        awayTeam:  "Ecuador",
+        awayFlag:  "./Banderas/ecu.png",
+        date:      "5 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Inglaterra",
+        homeFlag:  "./Banderas/inga.png",
+        awayTeam:  "Argentina",
+        awayFlag:  "./Banderas/arge.png",
+        date:      "5 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO B · 6 Jun (Sábado) ──
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Chile",
+        homeFlag:  "./Banderas/chile.png",
+        awayTeam:  "Perú",
+        awayFlag:  "./Banderas/peru.png",
+        date:      "6 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Centroamérica",
+        homeFlag:  "./Banderas/ca.jpg",
+        awayTeam:  "Colombia",
+        awayFlag:  "./Banderas/colombi.png",
+        date:      "6 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Estados Unidos",
+        homeFlag:  "./Banderas/usa.png",
+        awayTeam:  "Bolivia",
+        awayFlag:  "./Banderas/boli.png",
+        date:      "6 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO C · 7 Jun (Domingo) ──
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Uruguay",
+        homeFlag:  "./Banderas/uruguay.png",
+        awayTeam:  "Dinamarca",
+        awayFlag:  "./Banderas/dinama.webp",
+        date:      "7 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Italia",
+        homeFlag:  "./Banderas/itali.png",
+        awayTeam:  "México",
+        awayFlag:  "./Banderas/mexi.png",
+        date:      "7 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Turquía",
+        homeFlag:  "./Banderas/turkia.png",
+        awayTeam:  "Marruecos",
+        awayFlag:  "./Banderas/morocco.png",
+        date:      "7 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+    ]
+  },
+  {
+    jornada: "Fecha 5 · Fase de Grupos",
+    games: [
+      // ── GRUPO A · 12 Jun (Viernes) ──
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "España",
+        homeFlag:  "./Banderas/españa.png",
+        awayTeam:  "Argentina",
+        awayFlag:  "./Banderas/arge.png",
+        date:      "12 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Ecuador",
+        homeFlag:  "./Banderas/ecu.png",
+        awayTeam:  "Venezuela",
+        awayFlag:  "./Banderas/vene.png",
+        date:      "12 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo A",
+        homeTeam:  "Países Bajos",
+        homeFlag:  "./Banderas/neth.png",
+        awayTeam:  "Inglaterra",
+        awayFlag:  "./Banderas/inga.png",
+        date:      "12 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO B · 13 Jun (Sábado) ──
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Chile",
+        homeFlag:  "./Banderas/chile.png",
+        awayTeam:  "Bolivia",
+        awayFlag:  "./Banderas/boli.png",
+        date:      "13 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Colombia",
+        homeFlag:  "./Banderas/colombi.png",
+        awayTeam:  "Perú",
+        awayFlag:  "./Banderas/peru.png",
+        date:      "13 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo B",
+        homeTeam:  "Centroamérica",
+        homeFlag:  "./Banderas/ca.jpg",
+        awayTeam:  "Estados Unidos",
+        awayFlag:  "./Banderas/usa.png",
+        date:      "13 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      // ── GRUPO C · 14 Jun (Domingo) ──
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Marruecos",
+        homeFlag:  "./Banderas/morocco.png",
+        awayTeam:  "Dinamarca",
+        awayFlag:  "./Banderas/dinama.webp",
+        date:      "14 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Uruguay",
+        homeFlag:  "./Banderas/uruguay.png",
+        awayTeam:  "México",
+        awayFlag:  "./Banderas/mexi.png",
+        date:      "14 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
+      {
+        grupo:     "Grupo C",
+        homeTeam:  "Italia",
+        homeFlag:  "./Banderas/itali.png",
+        awayTeam:  "Turquía",
+        awayFlag:  "./Banderas/turkia.png",
+        date:      "14 Jun · Por confirmar",
+        status:    "upcoming",
+        homeScore: 0,
+        awayScore: 0,
+      },
     ]
   },
   // ── Agrega más jornadas aquí con el mismo formato ──
@@ -2738,26 +3232,43 @@ function renderGroups() {
 
 /* ── Render Partidos ── */
 let currentFilter = 'all';
+let currentFecha  = 0;
+
+function showFecha(index, btn) {
+  currentFecha = index;
+  document.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMatches();
+}
 
 function renderMatches(filter) {
-  filter = filter || currentFilter;
+  if (filter !== undefined) currentFilter = filter;
   const container = document.getElementById('matchesContainer');
   const countTag  = document.getElementById('matchesCount');
 
-  let total = 0;
-  let html  = '';
+  const jornada = MATCHES[currentFecha];
+  if (!jornada) {
+    container.innerHTML = '<div class="no-matches">Fecha no disponible.</div>';
+    return;
+  }
 
-  MATCHES.forEach(jornada => {
-    const games = filter === 'all'
-      ? jornada.games
-      : jornada.games.filter(g => g.status === filter);
+  const games = currentFilter === 'all'
+    ? jornada.games
+    : jornada.games.filter(g => g.status === currentFilter);
 
-    if (!games.length) return;
-    total += games.length;
+  let html = '';
 
-    html += `<p class="jornada-label">${jornada.jornada}</p>`;
+  // Group by Grupo A / B / C
+  const byGroup = {};
+  games.forEach(m => {
+    const key = m.grupo.replace(' · Partido Inaugural', '');
+    if (!byGroup[key]) byGroup[key] = [];
+    byGroup[key].push(m);
+  });
 
-    games.forEach(m => {
+  Object.entries(byGroup).forEach(([grupo, matches]) => {
+    html += `<p class="jornada-label">${grupo}</p>`;
+    matches.forEach(m => {
       const badgeClass = { upcoming:'badge-upcoming', live:'badge-live', done:'badge-done' }[m.status];
       const badgeText  = { upcoming:'Próximo', live:'⬤ En vivo', done:'Finalizado' }[m.status];
       const scoreHTML  = (m.status === 'live' || m.status === 'done')
@@ -2782,20 +3293,19 @@ function renderMatches(filter) {
             <span class="match-date">${m.date}</span>
             <span class="match-group-tag">${m.grupo}</span>
           </div>
-        </div>
-      `;
+        </div>`;
     });
   });
 
   container.innerHTML = html || `<div class="no-matches">No hay partidos en esta categoría.</div>`;
-  countTag.textContent = `${total} Partido${total !== 1 ? 's' : ''}`;
+  countTag.textContent = `${games.length} Partido${games.length !== 1 ? 's' : ''}`;
 }
 
 function filterMatches(filter, btn) {
   currentFilter = filter;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  renderMatches(filter);
+  renderMatches();
 }
 
 /* ── Tab switching ── */
