@@ -1748,14 +1748,14 @@
               <div class="owner-avatar owner-av2">⚽</div>
               <div class="owner-info">
                 <div class="owner-role">Vice-Presidente</div>
-                <div class="owner-name">kidleaky</div>
+                <div class="owner-name">Humberto</div>
               </div>
             </div>
             <div class="owner-card">
               <div class="owner-avatar owner-av3">📋</div>
               <div class="owner-info">
                 <div class="owner-role">Coordinador</div>
-                <div class="owner-name">???</div>
+                <div class="owner-name">Vixxo</div>
               </div>
             </div>
           </div>
@@ -2509,49 +2509,115 @@ const MATCHES = [
    Orden dentro de cada grupo = posición final.
    qualify: "direct" | "third" | "eliminated"
 ══════════════════════════════════════ */
-const STANDINGS = [
-  {
-    group: "GRUPO A", letter: "A",
-    teams: [
-      { name:"España",        flag:"./Banderas/españa.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
-      { name:"Ecuador",       flag:"./Banderas/ecu.png",      pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
-      { name:"Países Bajos",  flag:"./Banderas/neth.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
-      { name:"Venezuela",     flag:"./Banderas/vene.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
-      { name:"Argentina",     flag:"./Banderas/arge.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
-      { name:"Inglaterra",    flag:"./Banderas/inga.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
-    ]
-  },
-  {
-    group: "GRUPO B", letter: "B",
-    teams: [
-      { name:"Chile",         flag:"./Banderas/chile.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
-      { name:"Colombia",      flag:"./Banderas/colombi.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
-      { name:"Centroamérica", flag:"./Banderas/ca.jpg",       pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
-      { name:"Perú",          flag:"./Banderas/peru.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
-      { name:"Bolivia",       flag:"./Banderas/boli.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
-      { name:"Estados Unidos",flag:"./Banderas/usa.png",      pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
-    ]
-  },
-  {
-    group: "GRUPO C", letter: "C",
-    teams: [
-      { name:"Dinamarca",     flag:"./Banderas/dinama.webp",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
-      { name:"México",        flag:"./Banderas/mexi.png",     pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
-      { name:"Italia",        flag:"./Banderas/itali.png",    pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"direct" },
-      { name:"Uruguay",       flag:"./Banderas/uruguay.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
-      { name:"Marruecos",     flag:"./Banderas/morocco.png",  pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"third" },
-      { name:"Turquía",        flag:"./Banderas/turkia.png",   pj:0, g:0, e:0, p:0, gf:0, gc:0, qualify:"eliminated" },
-    ]
-  },
-];
+/* ══════════════════════════════════════
+   POSICIONES — SE CALCULAN AUTOMÁTICAMENTE
+   ─────────────────────────────────────
+   Solo edita los marcadores en MATCHES:
+     status:    "done"
+     homeScore: 2
+     awayScore: 1
+   La tabla se actualiza sola.
+
+   CLASIFICACIÓN AUTOMÁTICA:
+   Top 3 de cada grupo → Cuartos de Final
+   4to, 5to → posible tercer lugar (se comparan entre grupos)
+   6to → eliminado
+══════════════════════════════════════ */
+
+// Equipos base: nombre, bandera y grupo
+const TEAMS_BASE = {
+  "España":        { flag:"./Banderas/españa.png",   group:"A" },
+  "Ecuador":       { flag:"./Banderas/ecu.png",      group:"A" },
+  "Países Bajos":  { flag:"./Banderas/neth.png",     group:"A" },
+  "Venezuela":     { flag:"./Banderas/vene.png",     group:"A" },
+  "Argentina":     { flag:"./Banderas/arge.png",     group:"A" },
+  "Inglaterra":    { flag:"./Banderas/inga.png",     group:"A" },
+  "Chile":         { flag:"./Banderas/chile.png",    group:"B" },
+  "Colombia":      { flag:"./Banderas/colombi.png",  group:"B" },
+  "Centroamérica": { flag:"./Banderas/ca.jpg",       group:"B" },
+  "Perú":          { flag:"./Banderas/peru.png",     group:"B" },
+  "Bolivia":       { flag:"./Banderas/boli.png",     group:"B" },
+  "Estados Unidos":{ flag:"./Banderas/usa.png",      group:"B" },
+  "Dinamarca":     { flag:"./Banderas/dinama.webp",  group:"C" },
+  "México":        { flag:"./Banderas/mexi.png",     group:"C" },
+  "Italia":        { flag:"./Banderas/itali.png",    group:"C" },
+  "Uruguay":       { flag:"./Banderas/uruguay.png",  group:"C" },
+  "Marruecos":     { flag:"./Banderas/morocco.png",  group:"C" },
+  "Turquía":       { flag:"./Banderas/turkia.png",   group:"C" },
+};
+
+function calcStandings() {
+  // Initialize stats for all teams
+  const stats = {};
+  for (const [name, info] of Object.entries(TEAMS_BASE)) {
+    stats[name] = { name, flag: info.flag, group: info.group,
+                    pj:0, g:0, e:0, p:0, gf:0, gc:0 };
+  }
+
+  // Process all finished matches
+  MATCHES.forEach(fecha => {
+    fecha.games.forEach(m => {
+      if (m.status !== 'done' && m.status !== 'live') return;
+      const h = stats[m.homeTeam];
+      const a = stats[m.awayTeam];
+      if (!h || !a) return;
+
+      const hs = parseInt(m.homeScore) || 0;
+      const as = parseInt(m.awayScore) || 0;
+
+      h.pj++; a.pj++;
+      h.gf += hs; h.gc += as;
+      a.gf += as; a.gc += hs;
+
+      if (hs > as)      { h.g++; a.p++; }
+      else if (hs < as) { a.g++; h.p++; }
+      else              { h.e++; a.e++; }
+    });
+  });
+
+  // Sort function: pts → dg → gf → name
+  function pts(t) { return t.g * 3 + t.e; }
+  function sortTeams(teams) {
+    return [...teams].sort((a, b) => {
+      const pd = pts(b) - pts(a); if (pd !== 0) return pd;
+      const dd = (b.gf-b.gc) - (a.gf-a.gc); if (dd !== 0) return dd;
+      const gd = b.gf - a.gf; if (gd !== 0) return gd;
+      return a.name.localeCompare(b.name);
+    });
+  }
+
+  // Build groups
+  const groups = { A:[], B:[], C:[] };
+  for (const t of Object.values(stats)) groups[t.group].push(t);
+
+  const sorted = {
+    A: sortTeams(groups.A),
+    B: sortTeams(groups.B),
+    C: sortTeams(groups.C),
+  };
+
+  // Assign qualify: top 3 direct, 4th & 5th third, 6th eliminated
+  const result = [];
+  for (const [letter, teams] of Object.entries(sorted)) {
+    const withQualify = teams.map((t, i) => ({
+      ...t,
+      qualify: i < 3 ? 'direct' : i < 5 ? 'third' : 'eliminated'
+    }));
+    result.push({ group: `GRUPO ${letter}`, letter, teams: withQualify });
+  }
+
+  return result;
+}
 
 /* ── Render Standings ── */
 function renderStandings() {
   const grid = document.getElementById('standingsGrid');
-  grid.innerHTML = STANDINGS.map(grp => {
-    const qualifyClass = { direct:'qualify-direct', third:'qualify-third', eliminated:'eliminated' };
+  const standings = calcStandings();
+  const qualifyClass = { direct:'qualify-direct', third:'qualify-third', eliminated:'eliminated' };
+
+  grid.innerHTML = standings.map(grp => {
     const rows = grp.teams.map((t, i) => {
-      const pts = (t.g * 3) + t.e;
+      const p   = t.g * 3 + t.e;
       const dg  = t.gf - t.gc;
       const dgClass = dg > 0 ? 'td-gd-pos' : dg < 0 ? 'td-gd-neg' : 'td-gd-zero';
       const dgStr   = dg > 0 ? '+' + dg : String(dg);
@@ -2571,9 +2637,8 @@ function renderStandings() {
           <td>${t.gf}</td>
           <td>${t.gc}</td>
           <td class="${dgClass}">${dgStr}</td>
-          <td class="td-pts">${pts}</td>
-        </tr>
-      `;
+          <td class="td-pts">${p}</td>
+        </tr>`;
     }).join('');
 
     return `
@@ -2599,8 +2664,7 @@ function renderStandings() {
           </thead>
           <tbody>${rows}</tbody>
         </table>
-      </div>
-    `;
+      </div>`;
   }).join('');
 }
 
@@ -3158,9 +3222,37 @@ const NOTICIAS = [
     autor: "Redacción RLA",
   },
   {
+    cat:   "humor",
+    title: "Bolivia llega con más porteros que delanteros",
+    text:  "El cuerpo técnico de Bolivia ha confirmado una plantilla con 3 porteros y apenas 3 delanteros. 'El plan es no recibir goles', declaró una fuente cercana al vestuario.",
+    date:  "11 May 2026",
+    autor: "Redacción RLA",
+  },
+  {
     cat:   "rumor",
-    title: "Nonea fuera de la seleccion de chile?",
-    text:  "Según diversas fuentes, ya se ha superado la meta de 100 firmas impulsada por aficionados que piden cambios respecto al rendimiento del delantero. Las críticas se centran principalmente en su falta de eficacia de cara al gol, su escasa aportación defensiva y su bajo impacto en momentos decisivos del equipo. Muchos hinchas consideran que estas carencias quedaron especialmente expuestas en la final de la Copa Libertadores, donde su actuación fue muy cuestionada. Incluso, parte de la afición lo señala como responsable indirecto en los dos primeros goles recibidos, debido a errores de presión, posicionamiento o falta de compromiso defensivo en jugadas clave. Todo este descontento ha provocado un fuerte debate entre seguidores y analistas, aumentando la presión sobre el jugador tras una de las derrotas más dolorosas de la temporada.",
+    title: "¿Argentina llega como favorita al torneo?",
+    text:  "Con 18 jugadores convocados y una plantilla equilibrada en todas las líneas, varios analistas apuntan a Argentina como uno de los candidatos a alzar el trofeo en esta edición.",
+    date:  "11 May 2026",
+    autor: "Redacción RLA",
+  },
+  {
+    cat:   "dato",
+    title: "Colombia rompe el récord de defensas convocadas",
+    text:  "La selección colombiana ha llamado a 10 defensas para esta edición, la cifra más alta registrada en la historia de la RLA World Cup. El técnico no ha dado explicaciones.",
+    date:  "11 May 2026",
+    autor: "Redacción RLA",
+  },
+  {
+    cat:   "oficial",
+    title: "fftekuuu jugará con Colombia",
+    text:  "Tras aparecer en los rosters de Venezuela y Colombia al mismo tiempo, la organización confirmó que fftekuuu pertenece oficialmente a la selección colombiana. Ha sido eliminado de la lista venezolana.",
+    date:  "11 May 2026",
+    autor: "Redacción RLA",
+  },
+  {
+    cat:   "humor",
+    title: "Turquía llega sin roster confirmado y con todo por demostrar",
+    text:  "La selección turca aún no ha presentado su plantilla oficial. Desde el campamento se limitan a decir que 'el equipo existe' y que estarán listos para el pitazo inicial.",
     date:  "11 May 2026",
     autor: "Redacción RLA",
   },
