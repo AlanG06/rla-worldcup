@@ -1819,8 +1819,8 @@
     </div>
 
     <div class="qualify-legend">
-      <div class="qualify-legend-item"><div class="qualify-dot qd-green"></div>Clasificado directo</div>
-      <div class="qualify-legend-item"><div class="qualify-dot qd-gold"></div>Posible clasificado (3er lugar)</div>
+      <div class="qualify-legend-item"><div class="qualify-dot qd-green"></div>Clasificado directo (Top 2)</div>
+      <div class="qualify-legend-item"><div class="qualify-dot qd-gold"></div>Mejor tercero (Top 2 de 3)</div>
       <div class="qualify-legend-item"><div class="qualify-dot qd-red"></div>Eliminado</div>
     </div>
 
@@ -1987,7 +1987,7 @@ const MATCHES = [
         homeFlag:  "./Banderas/neth.png",
         awayTeam:  "Venezuela",
         awayFlag:  "./Banderas/vene.png",
-        date:      "17 May · 13:00 CDMX",
+        date:      "15 May · 18:00 CDMX",
         status:    "upcoming",
         homeScore: 0,
         awayScore: 0,
@@ -2519,9 +2519,11 @@ const MATCHES = [
    La tabla se actualiza sola.
 
    CLASIFICACIÓN AUTOMÁTICA:
-   Top 3 de cada grupo → Cuartos de Final
-   4to, 5to → posible tercer lugar (se comparan entre grupos)
-   6to → eliminado
+   Top 2 de cada grupo → Cuartos de Final (6 equipos)
+   Los 2 mejores terceros → Cuartos de Final (2 equipos)
+   Total: 8 equipos clasificados
+   3er peor → eliminado
+   4to, 5to, 6to → eliminados
 ══════════════════════════════════════ */
 
 // Equipos base: nombre, bandera y grupo
@@ -2596,14 +2598,39 @@ function calcStandings() {
     C: sortTeams(groups.C),
   };
 
-  // Assign qualify: top 3 direct, 4th & 5th third, 6th eliminated
+  // Assign qualify per group: top 2 direct, 3rd → third pool, 4th-6th eliminated
+  // Then compare the 3 third-place teams and mark best 2 as 'third', worst as 'eliminated'
+  const thirdPlaceTeams = [];
+
   const result = [];
   for (const [letter, teams] of Object.entries(sorted)) {
     const withQualify = teams.map((t, i) => ({
       ...t,
-      qualify: i < 3 ? 'direct' : i < 5 ? 'third' : 'eliminated'
+      qualify: i < 2 ? 'direct' : i === 2 ? 'third' : 'eliminated'
     }));
+    // Collect third place team for cross-group comparison
+    thirdPlaceTeams.push({ ...withQualify[2], groupLetter: letter });
     result.push({ group: `GRUPO ${letter}`, letter, teams: withQualify });
+  }
+
+  // Compare the 3 third-place teams: best 2 qualify, worst is eliminated
+  function ptsCalc(t) { return t.g * 3 + t.e; }
+  thirdPlaceTeams.sort((a, b) => {
+    const pd = ptsCalc(b) - ptsCalc(a); if (pd !== 0) return pd;
+    const dd = (b.gf - b.gc) - (a.gf - a.gc); if (dd !== 0) return dd;
+    return b.gf - a.gf;
+  });
+
+  // The worst third-place team gets eliminated
+  const eliminatedThird = thirdPlaceTeams[2]?.name;
+  if (eliminatedThird) {
+    for (const grp of result) {
+      grp.teams = grp.teams.map(t =>
+        t.name === eliminatedThird && t.qualify === 'third'
+          ? { ...t, qualify: 'eliminated' }
+          : t
+      );
+    }
   }
 
   return result;
@@ -2740,10 +2767,9 @@ function renderBracket() {
   if (!wrap) return;
 
   const rounds = [
-    { key:'r16',   label:'Octavos de Final',  matches: BRACKET.r16 },
-    { key:'qf',    label:'Cuartos de Final',   matches: BRACKET.qf  },
-    { key:'sf',    label:'Semifinales',         matches: BRACKET.sf  },
-    { key:'final', label:'Final',               matches: BRACKET.final },
+    { key:'qf',    label:'Cuartos de Final',  matches: BRACKET.qf   },
+    { key:'sf',    label:'Semifinales',        matches: BRACKET.sf   },
+    { key:'final', label:'Final',              matches: BRACKET.final },
   ];
 
   let html = '';
