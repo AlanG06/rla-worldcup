@@ -1632,6 +1632,136 @@
     .subtab-btn { font-size: 11px; padding: 6px 10px; }
   }
 
+
+  /* ── FORMATO TORNEO ── */
+  .formato-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    margin-top: 1.5rem;
+  }
+
+  .formato-card::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .formato-steps {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .formato-step {
+    flex: 1;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem 0.75rem;
+    position: relative;
+  }
+
+  .formato-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 1.2rem;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 640px) {
+    .formato-step:not(:last-child)::after { display: none; }
+    .formato-step { min-width: 100%; border-bottom: 1px solid var(--border); padding: 0.75rem 0; }
+    .formato-step:last-child { border-bottom: none; }
+  }
+
+  .formato-step-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .formato-step-title {
+    font-family: 'Bebas Neue';
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 0.25rem;
+  }
+
+  .formato-step-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .formato-step-date {
+    font-family: 'Orbitron';
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    opacity: 0.7;
+  }
+
+  .classify-box {
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .classify-box-title {
+    font-family: 'Bebas Neue';
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 0.25rem;
+  }
+
+  .classify-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  .classify-badge {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .classify-num {
+    font-family: 'Bebas Neue';
+    font-size: 1.1rem;
+    min-width: 28px;
+    letter-spacing: 1px;
+  }
+
+  .classify-green { background: rgba(134,239,172,0.6); }
+  .classify-gold  { background: rgba(244,196,48,0.6); }
+  .classify-red   { background: rgba(248,113,113,0.4); }
+
 </style>
 </head>
 <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
@@ -1729,6 +1859,58 @@
             <div class="rule-item"><span class="rule-num">03</span>Primero se asignan los equipos del Bombo 1, dos por grupo.</div>
             <div class="rule-item"><span class="rule-num">04</span>Luego Bombo 2, después Bombo 3, dos equipos por grupo cada uno.</div>
             <div class="rule-item"><span class="rule-num">05</span>Cada grupo tendrá exactamente 2 selecciones de cada bombo.</div>
+
+        <div class="formato-card">
+          <div class="info-card-title">Formato del Torneo</div>
+          <p class="info-text">Con <strong>18 selecciones</strong>, el formato más justo es <strong>3 grupos de 6 equipos</strong>, donde cada selección juega contra las otras 5 de su grupo durante 5 fechas. Así todos compiten en igualdad de condiciones.</p>
+
+          <div class="formato-steps">
+            <div class="formato-step">
+              <div class="formato-step-icon">⚽</div>
+              <div class="formato-step-title">Fase de Grupos</div>
+              <div class="formato-step-desc">3 grupos de 6<br>5 fechas · 45 partidos</div>
+              <div class="formato-step-date">15 May – 14 Jun</div>
+            </div>
+            <div class="formato-step">
+              <div class="formato-step-icon">⚔️</div>
+              <div class="formato-step-title">Cuartos de Final</div>
+              <div class="formato-step-desc">8 equipos<br>4 partidos</div>
+              <div class="formato-step-date">19 – 20 Jun</div>
+            </div>
+            <div class="formato-step">
+              <div class="formato-step-icon">🔥</div>
+              <div class="formato-step-title">Semifinales</div>
+              <div class="formato-step-desc">4 equipos<br>2 partidos</div>
+              <div class="formato-step-date">21 Jun</div>
+            </div>
+            <div class="formato-step">
+              <div class="formato-step-icon">🏆</div>
+              <div class="formato-step-title">Final</div>
+              <div class="formato-step-desc">2 equipos<br>1 campeón</div>
+              <div class="formato-step-date">26 Jun</div>
+            </div>
+          </div>
+
+          <div class="classify-box">
+            <div class="classify-box-title">¿Cómo se clasifican los 8 equipos a Cuartos?</div>
+            <div class="classify-row">
+              <div class="classify-badge classify-green"></div>
+              <span class="classify-num" style="color:#86efac">6</span>
+              <span>Los <strong style="color:var(--text)">2 primeros</strong> de cada grupo clasifican directamente → 3 grupos × 2 = 6 equipos</span>
+            </div>
+            <div class="classify-row">
+              <div class="classify-badge classify-gold"></div>
+              <span class="classify-num" style="color:var(--gold)">+2</span>
+              <span>Los <strong style="color:var(--text)">2 mejores terceros</strong> entre los 3 grupos también clasifican → 8 equipos en total</span>
+            </div>
+            <div class="classify-row">
+              <div class="classify-badge classify-red"></div>
+              <span class="classify-num" style="color:#fca5a5">✕</span>
+              <span>El <strong style="color:var(--text)">peor tercero</strong> y los puestos 4°, 5° y 6° de cada grupo quedan eliminados</span>
+            </div>
+            <div class="classify-row" style="margin-top:0.25rem; padding-top:0.75rem; border-top:1px solid var(--border); font-size:12px; color:var(--text-muted);">
+              💡 El desempate entre los terceros se decide por: puntos → diferencia de goles → goles a favor
+            </div>
           </div>
         </div>
       </div>
@@ -1748,14 +1930,14 @@
               <div class="owner-avatar owner-av2">⚽</div>
               <div class="owner-info">
                 <div class="owner-role">Vice-Presidente</div>
-                <div class="owner-name">kidleaky</div>
+                <div class="owner-name">Humberto</div>
               </div>
             </div>
             <div class="owner-card">
               <div class="owner-avatar owner-av3">📋</div>
               <div class="owner-info">
                 <div class="owner-role">Coordinador</div>
-                <div class="owner-name">Humberto</div>
+                <div class="owner-name">Vixxo</div>
               </div>
             </div>
           </div>
