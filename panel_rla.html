@@ -121,7 +121,7 @@ function tryLogin(){
   if(pass===PASSWORD){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('adminApp').style.display='block';
-    if(typeof initAdmin==='function') initAdmin();
+    setTimeout(()=>{ if(typeof initAdmin==='function') initAdmin(); }, 50);
   } else {
     document.getElementById('passInput').classList.add('error');
     document.getElementById('loginError').style.display='block';
