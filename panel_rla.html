@@ -60,6 +60,37 @@
   .team-slot-row:last-child{margin-bottom:0;}
   .slot-num{font-family:'Bebas Neue';font-size:0.9rem;color:var(--muted);min-width:20px;}
   .teams-pool{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;}
+
+  /* DRAG & DROP */
+  .drag-pool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.6rem;margin-top:0.75rem;}
+  .draggable-team{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;cursor:grab;transition:all 0.2s;display:flex;align-items:center;gap:8px;position:relative;}
+  .draggable-team:active{cursor:grabbing;}
+  .draggable-team:hover{border-color:var(--blue-bright);background:rgba(59,130,246,0.1);}
+  .draggable-team.dragging{opacity:0.4;border-style:dashed;}
+  .draggable-team.bombo-1-chip{border-left:3px solid var(--gold);}
+  .draggable-team.bombo-2-chip{border-left:3px solid #a8edea;}
+  .draggable-team .chip-name{flex:1;font-size:13px;font-weight:700;color:var(--text);}
+  .draggable-team .chip-edit{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0;transition:color 0.2s;}
+  .draggable-team .chip-edit:hover{color:var(--blue-bright);}
+  .draggable-team .chip-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0;transition:color 0.2s;}
+  .draggable-team .chip-remove:hover{color:var(--red);}
+  .drop-zone{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;min-height:200px;position:relative;overflow:hidden;transition:border-color 0.2s,background 0.2s;}
+  .drop-zone::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),transparent);}
+  .drop-zone.drag-over{border-color:var(--blue-bright);background:rgba(59,130,246,0.07);}
+  .drop-zone-title{font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:var(--blue-bright);margin-bottom:0.75rem;display:flex;align-items:center;justify-content:space-between;}
+  .drop-zone-count{font-size:11px;color:var(--muted);letter-spacing:1px;}
+  .drop-zone-teams{display:flex;flex-direction:column;gap:0.5rem;min-height:100px;}
+  .drop-zone-empty{font-size:12px;color:var(--muted);text-align:center;padding:1.5rem 0;letter-spacing:1px;border:1px dashed rgba(59,130,246,0.2);border-radius:8px;}
+  .group-team-item{background:var(--card2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:grab;}
+  .group-team-item:active{cursor:grabbing;}
+  .group-team-item:hover{border-color:var(--red);}
+  .group-team-name{flex:1;font-size:13px;font-weight:700;color:var(--text);}
+  .group-team-bombo{font-size:9px;color:var(--muted);letter-spacing:1px;}
+  .btn-remove-group{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;transition:color 0.2s;}
+  .btn-remove-group:hover{color:var(--red);}
+  .sorteo-layout{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  .groups-dropzone-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .edit-name-input{background:var(--bg,#050810);border:1px solid var(--blue);color:var(--text);font-family:'Rajdhani';font-size:13px;font-weight:700;padding:4px 8px;border-radius:6px;outline:none;width:100%;}
   .team-chip{background:var(--card2);border:1px solid var(--border);color:var(--text);font-family:'Rajdhani';font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;}
   .team-chip:hover{border-color:var(--blue-bright);color:var(--blue-bright);}
   .team-chip.assigned{opacity:0.35;cursor:not-allowed;pointer-events:none;}
@@ -196,20 +227,22 @@ function showSection(id,btn){
     <!-- SORTEO -->
     <div class="tab-section active" id="sec-sorteo">
       <div class="section-title">Sorteo y Grupos</div>
-      <div class="section-hint">💡 Asigna cada equipo a su grupo. Cuando los 4 grupos estén completos, los partidos y posiciones se generan automáticamente en el sitio.</div>
+      <div class="section-hint">💡 Arrastra los equipos del pool hacia cada grupo. Puedes editar el nombre con ✏️ o quitarlo con ✕.</div>
 
-      <div class="sorteo-grid" id="sorteoGrid"></div>
-
-      <div class="admin-card">
-        <div class="card-title">Pool de Equipos</div>
-        <p style="font-size:12px;color:var(--muted);margin-bottom:0.75rem;">Click en un equipo para asignarlo al grupo seleccionado. <strong style="color:var(--text);">Grupo activo: <span id="activeGroupLabel">—</span></strong></p>
-        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
-          <button class="status-btn" id="gsel_A" onclick="selectGroup('A')">Grupo A</button>
-          <button class="status-btn" id="gsel_B" onclick="selectGroup('B')">Grupo B</button>
-          <button class="status-btn" id="gsel_C" onclick="selectGroup('C')">Grupo C</button>
-          <button class="status-btn" id="gsel_D" onclick="selectGroup('D')">Grupo D</button>
+      <div class="sorteo-layout">
+        <!-- Pool izquierda -->
+        <div>
+          <div class="admin-card" style="margin-bottom:0;">
+            <div class="card-title">Pool de Equipos <span style="font-size:11px;color:var(--muted);letter-spacing:1px;font-family:'Rajdhani';">— arrastra al grupo</span></div>
+            <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+              <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);"><div style="width:8px;height:8px;border-radius:2px;background:var(--gold);flex-shrink:0;"></div>Bombo 1</span>
+              <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);"><div style="width:8px;height:8px;border-radius:2px;background:#a8edea;flex-shrink:0;"></div>Bombo 2</span>
+            </div>
+            <div class="drag-pool-grid" id="teamsPool"></div>
+          </div>
         </div>
-        <div class="teams-pool" id="teamsPool"></div>
+        <!-- Grupos derecha -->
+        <div class="groups-dropzone-grid" id="groupsDropzones"></div>
       </div>
     </div>
 
@@ -282,56 +315,170 @@ let DATA = {
   }
 };
 
-let activeGroup = 'A';
-
 /* ══ INIT ══ */
 function initAdmin(){
-  renderSorteo();
+  renderDragSorteo();
   renderMatchesEditor();
   renderBracketsEditor();
 }
 
-/* ══ SORTEO ══ */
-function selectGroup(g){
-  activeGroup = g;
-  document.getElementById('activeGroupLabel').textContent = `Grupo ${g}`;
-  ['A','B','C','D'].forEach(x=>{
-    const btn=document.getElementById(`gsel_${x}`);
-    btn.className='status-btn'+(x===g?' active-done':'');
-  });
+/* ══ DRAG & DROP SORTEO ══ */
+let draggedTeam = null;
+let dragSource = null; // 'pool' or group letter
+
+function renderDragSorteo(){
+  renderPool();
+  renderDropzones();
 }
 
-function assignTeam(teamName){
-  const group = DATA.groups[activeGroup];
-  if(group.length >= 4){ showToast('El grupo ya tiene 4 equipos','error'); return; }
-  if(Object.values(DATA.groups).some(g=>g.some(t=>t.name===teamName))){ return; }
-  const team = DATA.allTeams.find(t=>t.name===teamName);
-  group.push({...team});
-  // Auto-generate matches if group complete
+function renderPool(){
+  const pool = document.getElementById('teamsPool');
+  if(!pool) return;
+  const assigned = new Set(Object.values(DATA.groups).flat().map(t=>t.name));
+  const unassigned = DATA.allTeams.filter(t=>!assigned.has(t.name));
+
+  pool.innerHTML = unassigned.length === 0
+    ? '<div style="font-size:13px;color:var(--muted);text-align:center;padding:1rem;letter-spacing:1px;">✅ Todos los equipos asignados</div>'
+    : unassigned.map((t,i) => `
+      <div class="draggable-team bombo-${t.bombo}-chip"
+        draggable="true"
+        id="chip_${t.name.replace(/[^a-z0-9]/gi,'_')}"
+        data-team="${t.name}"
+        data-source="pool"
+        ondragstart="onDragStart(event)"
+        ondragend="onDragEnd(event)">
+        <span class="chip-name" id="chipname_${t.name.replace(/[^a-z0-9]/gi,'_')}">${t.name}</span>
+        <button class="chip-edit" onclick="editTeamName('${t.name.replace(/'/g,"\\'")}',null)" title="Editar nombre">✏️</button>
+      </div>`).join('');
+}
+
+function renderDropzones(){
+  const container = document.getElementById('groupsDropzones');
+  if(!container) return;
+  container.innerHTML = ['A','B','C','D'].map(letter => {
+    const teams = DATA.groups[letter];
+    const teamsHTML = teams.length === 0
+      ? '<div class="drop-zone-empty">Arrastra equipos aquí</div>'
+      : teams.map((t,i) => `
+          <div class="group-team-item"
+            draggable="true"
+            data-team="${t.name}"
+            data-source="${letter}"
+            ondragstart="onDragStart(event)"
+            ondragend="onDragEnd(event)">
+            <span class="group-team-name">${t.name}</span>
+            <span class="group-team-bombo">B${t.bombo}</span>
+            <button class="btn-remove-group" onclick="removeFromGroup('${letter}',${i})" title="Quitar">✕</button>
+          </div>`).join('');
+
+    return `<div class="drop-zone"
+        id="dropzone_${letter}"
+        ondragover="onDragOver(event)"
+        ondragleave="onDragLeave(event)"
+        ondrop="onDrop(event,'${letter}')">
+        <div class="drop-zone-title">
+          GRUPO ${letter}
+          <span class="drop-zone-count">${teams.length}/4</span>
+        </div>
+        <div class="drop-zone-teams">${teamsHTML}</div>
+      </div>`;
+  }).join('');
+}
+
+function onDragStart(e){
+  draggedTeam = e.currentTarget.dataset.team;
+  dragSource  = e.currentTarget.dataset.source;
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onDragEnd(e){
+  e.currentTarget.classList.remove('dragging');
+  document.querySelectorAll('.drop-zone').forEach(z=>z.classList.remove('drag-over'));
+}
+
+function onDragOver(e){
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drag-over');
+}
+
+function onDragLeave(e){
+  e.currentTarget.classList.remove('drag-over');
+}
+
+function onDrop(e, targetGroup){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if(!draggedTeam) return;
+
+  const targetTeams = DATA.groups[targetGroup];
+
+  // If already in target group, do nothing
+  if(dragSource === targetGroup) return;
+
+  // Remove from source
+  if(dragSource !== 'pool'){
+    const srcIdx = DATA.groups[dragSource].findIndex(t=>t.name===draggedTeam);
+    if(srcIdx > -1) DATA.groups[dragSource].splice(srcIdx, 1);
+  }
+
+  // Add to target if not full
+  if(targetTeams.length >= 4){
+    showToast('El Grupo '+targetGroup+' ya tiene 4 equipos','error');
+    // Put back if came from a group
+    if(dragSource !== 'pool'){
+      const team = DATA.allTeams.find(t=>t.name===draggedTeam);
+      DATA.groups[dragSource].push(team);
+    }
+    draggedTeam = null; dragSource = null;
+    renderDragSorteo();
+    return;
+  }
+
+  const team = DATA.allTeams.find(t=>t.name===draggedTeam);
+  if(team) targetTeams.push({...team});
+
+  // Auto-generate matches if all groups complete
   if(Object.values(DATA.groups).every(g=>g.length===4)){
     generateMatches();
+    showToast('✅ Sorteo completo. Partidos generados.');
   }
-  renderSorteo();
+
+  draggedTeam = null; dragSource = null;
+  renderDragSorteo();
   renderMatchesEditor();
 }
 
 function removeFromGroup(groupLetter, idx){
   DATA.groups[groupLetter].splice(idx,1);
-  // Clear generated matches since groups changed
   DATA.matches.forEach(f=>f.games=[]);
-  renderSorteo();
+  renderDragSorteo();
   renderMatchesEditor();
 }
 
+function editTeamName(oldName, groupLetter){
+  const newName = prompt('Nuevo nombre para "'+oldName+'":', oldName);
+  if(!newName || newName.trim()==='' || newName===oldName) return;
+  const trimmed = newName.trim();
+  // Update in allTeams
+  const t = DATA.allTeams.find(t=>t.name===oldName);
+  if(t) t.name = trimmed;
+  // Update in groups
+  Object.values(DATA.groups).forEach(g=>g.forEach(t=>{ if(t.name===oldName) t.name=trimmed; }));
+  // Update in matches
+  DATA.matches.forEach(f=>f.games.forEach(m=>{
+    if(m.homeTeam===oldName) m.homeTeam=trimmed;
+    if(m.awayTeam===oldName) m.awayTeam=trimmed;
+  }));
+  renderDragSorteo();
+  renderMatchesEditor();
+  showToast('✅ Nombre actualizado');
+}
+
 function generateMatches(){
-  // Generate round-robin matches for each group across 3 dates
-  // Each group of 4 plays: F1: 1v4, 2v3 | F2: 1v3, 2v4 | F3: 1v2, 3v4
   DATA.matches.forEach(f=>f.games=[]);
-  const schedule = [
-    [[0,3],[1,2]], // Fecha 1
-    [[0,2],[1,3]], // Fecha 2
-    [[0,1],[2,3]], // Fecha 3
-  ];
+  const schedule=[[[0,3],[1,2]],[[0,2],[1,3]],[[0,1],[2,3]]];
   Object.entries(DATA.groups).forEach(([letter,teams])=>{
     schedule.forEach((pairs,fi)=>{
       pairs.forEach(([a,b])=>{
@@ -339,49 +486,14 @@ function generateMatches(){
           grupo:`Grupo ${letter}`,
           homeTeam:teams[a].name,
           awayTeam:teams[b].name,
-          date:"Por confirmar",
-          status:"upcoming",
+          date:'Por confirmar',
+          status:'upcoming',
           homeScore:0,
           awayScore:0,
         });
       });
     });
   });
-}
-
-function renderSorteo(){
-  // Groups
-  const grid = document.getElementById('sorteoGrid');
-  grid.innerHTML = ['A','B','C','D'].map(letter=>{
-    const teams = DATA.groups[letter];
-    const slots = Array(4).fill(null).map((_,i)=>teams[i]||null);
-    return `<div class="group-slot">
-      <div class="group-slot-title">GRUPO ${letter}</div>
-      ${slots.map((t,i)=>t
-        ?`<div class="team-slot-row">
-            <span class="slot-num">${i+1}</span>
-            <div class="assigned-team" style="flex:1;">
-              <span class="assigned-team-name">${t.name}</span>
-              <button class="btn-remove" onclick="removeFromGroup('${letter}',${i})" title="Quitar">✕</button>
-            </div>
-          </div>`
-        :`<div class="team-slot-row">
-            <span class="slot-num">${i+1}</span>
-            <div class="empty-slot" style="flex:1;">Vacío — selecciona un equipo abajo</div>
-          </div>`
-      ).join('')}
-    </div>`;
-  }).join('');
-
-  // Pool
-  const assigned = new Set(Object.values(DATA.groups).flat().map(t=>t.name));
-  const pool = document.getElementById('teamsPool');
-  pool.innerHTML = DATA.allTeams.map(t=>`
-    <div class="team-chip bombo-${t.bombo}${assigned.has(t.name)?' assigned':''}"
-      onclick="assignTeam('${t.name}')"
-      title="Bombo ${t.bombo}">
-      ${t.name}
-    </div>`).join('');
 }
 
 /* ══ PARTIDOS EDITOR ══ */
