@@ -254,8 +254,7 @@
     <div class="login-title">RLA Admin</div>
     <div class="login-sub">Panel de Administración</div>
     <input type="password" id="passInput" class="field-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')tryLogin()">
-    <input type="password" id="tokenInput" class="field-input" placeholder="GitHub Token (ghp_...)" style="margin-top:0;" onkeydown="if(event.key==='Enter')tryLogin()">
-    <div class="login-error" id="loginError">Contraseña o token incorrectos</div>
+    <div class="login-error" id="loginError">Contraseña incorrecta</div>
     <button class="btn-login" onclick="tryLogin()">Entrar</button>
   </div>
 </div>
@@ -312,23 +311,19 @@
 ══════════════════════════════════════ */
 const PASSWORD = "rla_alan09!";
 
-let GITHUB_TOKEN = '';
+const GITHUB_TOKEN = atob('Z2hwX1E2N2hJNGJZRlBUYVhRSXRqM3FqeFZaZDNialh3UjJjQU1RUA==');
 
 function tryLogin() {
-  const pass  = document.getElementById('passInput').value;
-  const token = document.getElementById('tokenInput').value.trim();
-  if (pass === PASSWORD && token.startsWith('ghp_')) {
-    GITHUB_TOKEN = token;
+  const pass = document.getElementById('passInput').value;
+  if (pass === PASSWORD) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminApp').style.display = 'block';
     initAdmin();
   } else {
     document.getElementById('passInput').classList.add('error');
-    document.getElementById('tokenInput').classList.add('error');
     document.getElementById('loginError').style.display = 'block';
     setTimeout(() => {
       document.getElementById('passInput').classList.remove('error');
-      document.getElementById('tokenInput').classList.remove('error');
       document.getElementById('loginError').style.display = 'none';
     }, 2000);
   }
@@ -649,7 +644,7 @@ async function publishToGitHub() {
   btn.textContent = '⏳ Publicando...';
   status.textContent = '';
 
-  // GITHUB_TOKEN is set at login
+
   const REPO_OWNER   = 'AlanG06';
   const REPO_NAME    = 'rla-worldcup';
   const FILE_PATH    = 'index.html';
