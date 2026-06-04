@@ -121,7 +121,7 @@ function tryLogin(){
   if(pass===PASSWORD){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('adminApp').style.display='block';
-    setTimeout(()=>{ if(typeof initAdmin==='function') initAdmin(); }, 50);
+    setTimeout(()=>{ if(typeof initAdmin==='function') initAdmin(); }, 300);
   } else {
     document.getElementById('passInput').classList.add('error');
     document.getElementById('loginError').style.display='block';
@@ -137,6 +137,32 @@ function showSection(id,btn){
   document.getElementById('sec-'+id).classList.add('active');
   btn.classList.add('active');
 }
+
+// Protección total
+(function(){
+  document.addEventListener('contextmenu',e=>e.preventDefault());
+  document.addEventListener('selectstart',e=>e.preventDefault());
+  document.addEventListener('dragstart',e=>e.preventDefault());
+  document.addEventListener('copy',e=>e.preventDefault());
+  document.addEventListener('keydown',e=>{
+    const ctrl=e.ctrlKey||e.metaKey;
+    const key=e.key.toLowerCase();
+    if(e.key==='F12')e.preventDefault();
+    if(ctrl&&e.shiftKey&&['i','j','c','k'].includes(key))e.preventDefault();
+    if(ctrl&&['u','s','a','p'].includes(key))e.preventDefault();
+  });
+  // Detectar DevTools abierto y redirigir
+  const devtools={open:false};
+  setInterval(()=>{
+    const threshold=160;
+    if(window.outerWidth-window.innerWidth>threshold||window.outerHeight-window.innerHeight>threshold){
+      if(!devtools.open){
+        devtools.open=true;
+        document.body.innerHTML='<div style="background:#050810;color:#f4c430;font-family:monospace;display:flex;align-items:center;justify-content:center;height:100vh;font-size:1.2rem;letter-spacing:2px;">ACCESO DENEGADO</div>';
+      }
+    } else { devtools.open=false; }
+  },500);
+})();
 </script>
 </head>
 <body>
