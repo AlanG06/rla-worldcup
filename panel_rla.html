@@ -254,7 +254,8 @@
     <div class="login-title">RLA Admin</div>
     <div class="login-sub">Panel de Administración</div>
     <input type="password" id="passInput" class="field-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')tryLogin()">
-    <div class="login-error" id="loginError">Contraseña incorrecta</div>
+    <input type="password" id="tokenInput" class="field-input" placeholder="GitHub Token (ghp_...)" style="margin-top:0;" onkeydown="if(event.key==='Enter')tryLogin()">
+    <div class="login-error" id="loginError">Contraseña o token incorrectos</div>
     <button class="btn-login" onclick="tryLogin()">Entrar</button>
   </div>
 </div>
@@ -263,9 +264,12 @@
 <div id="adminApp">
   <div class="admin-header">
     <div class="admin-logo">RLA Admin <span>Panel</span></div>
-    <button class="btn-download" onclick="downloadIndex()">
-      ⬇ Descargar index.html
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+    <span id="publishStatus" style="font-size:12px;color:var(--muted);letter-spacing:1px;"></span>
+    <button class="btn-download" onclick="publishToGitHub()" id="publishBtn">
+      🚀 Publicar cambios
     </button>
+  </div>
   </div>
 
   <div class="admin-nav">
@@ -308,17 +312,23 @@
 ══════════════════════════════════════ */
 const PASSWORD = "rla_alan09!";
 
+let GITHUB_TOKEN = '';
+
 function tryLogin() {
-  const val = document.getElementById('passInput').value;
-  if (val === PASSWORD) {
+  const pass  = document.getElementById('passInput').value;
+  const token = document.getElementById('tokenInput').value.trim();
+  if (pass === PASSWORD && token.startsWith('ghp_')) {
+    GITHUB_TOKEN = token;
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminApp').style.display = 'block';
     initAdmin();
   } else {
     document.getElementById('passInput').classList.add('error');
+    document.getElementById('tokenInput').classList.add('error');
     document.getElementById('loginError').style.display = 'block';
     setTimeout(() => {
       document.getElementById('passInput').classList.remove('error');
+      document.getElementById('tokenInput').classList.remove('error');
       document.getElementById('loginError').style.display = 'none';
     }, 2000);
   }
@@ -632,16 +642,66 @@ function showToast(msg = '✅ Listo') {
 }
 
 /* ══ GENERAR Y DESCARGAR INDEX.HTML ══ */
-function downloadIndex() {
-  const indexContent = generateIndex();
-  const blob = new Blob([indexContent], { type: 'text/html' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url;
-  a.download = 'index.html';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('✅ index.html descargado');
+async function publishToGitHub() {
+  const btn = document.getElementById('publishBtn');
+  const status = document.getElementById('publishStatus');
+  btn.disabled = true;
+  btn.textContent = '⏳ Publicando...';
+  status.textContent = '';
+
+  // GITHUB_TOKEN is set at login
+  const REPO_OWNER   = 'AlanG06';
+  const REPO_NAME    = 'rla-worldcup';
+  const FILE_PATH    = 'index.html';
+
+  try {
+    // 1. Get current SHA of index.html
+    const getRes = await fetch(
+      \`https://api.github.com/repos/\${REPO_OWNER}/\${REPO_NAME}/contents/\${FILE_PATH}\`,
+      { headers: { Authorization: \`token \${GITHUB_TOKEN}\`, Accept: 'application/vnd.github.v3+json' } }
+    );
+    if (!getRes.ok) throw new Error('No se pudo obtener el archivo actual');
+    const fileData = await getRes.json();
+    const sha = fileData.sha;
+
+    // 2. Generate new index content and encode to base64
+    const newContent = generateIndex();
+    const encoded = btoa(unescape(encodeURIComponent(newContent)));
+
+    // 3. Push to GitHub
+    const putRes = await fetch(
+      \`https://api.github.com/repos/\${REPO_OWNER}/\${REPO_NAME}/contents/\${FILE_PATH}\`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: \`token \${GITHUB_TOKEN}\`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: 'Update index.html via RLA Admin Panel',
+          content: encoded,
+          sha: sha,
+        })
+      }
+    );
+
+    if (!putRes.ok) {
+      const err = await putRes.json();
+      throw new Error(err.message || 'Error al publicar');
+    }
+
+    showToast('🚀 ¡Publicado! Netlify actualizará en segundos');
+    status.textContent = '✅ Publicado correctamente';
+    status.style.color = '#22c55e';
+  } catch (err) {
+    showToast('❌ Error: ' + err.message);
+    status.textContent = '❌ ' + err.message;
+    status.style.color = '#ef4444';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🚀 Publicar cambios';
+  }
 }
 
 function generateIndex() {
