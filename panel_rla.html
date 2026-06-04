@@ -114,6 +114,24 @@
     .match-body{flex-direction:column;align-items:flex-start;}
   }
 </style>
+<script>
+const PASSWORD = "rla_alan09!";
+function tryLogin(){
+  const pass=document.getElementById('passInput').value;
+  if(pass===PASSWORD){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminApp').style.display='block';
+    if(typeof initAdmin==='function') initAdmin();
+  } else {
+    document.getElementById('passInput').classList.add('error');
+    document.getElementById('loginError').style.display='block';
+    setTimeout(()=>{
+      document.getElementById('passInput').classList.remove('error');
+      document.getElementById('loginError').style.display='none';
+    },2000);
+  }
+}
+</script>
 </head>
 <body>
 
@@ -180,28 +198,12 @@
 <div id="toast"></div>
 
 <script>
-const PASSWORD = "rla_alan09!";
 const GITHUB_TOKEN = atob('Z2hwX1E2N2hJNGJZRlBUYVhRSXRqM3FqeFZaZDNialh3UjJjQU1RUA==');
 const REPO_OWNER = 'AlanG06';
 const REPO_NAME  = 'rla-worldcup';
 const FILE_PATH  = 'index.html';
 
 /* ══ LOGIN ══ */
-function tryLogin(){
-  const pass=document.getElementById('passInput').value;
-  if(pass===PASSWORD){
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('adminApp').style.display='block';
-    initAdmin();
-  } else {
-    document.getElementById('passInput').classList.add('error');
-    document.getElementById('loginError').style.display='block';
-    setTimeout(()=>{
-      document.getElementById('passInput').classList.remove('error');
-      document.getElementById('loginError').style.display='none';
-    },2000);
-  }
-}
 
 /* ══ DATA ══ */
 let DATA = {
