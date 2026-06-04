@@ -104,7 +104,7 @@ function tryLogin(){
   if(p === PWD){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('adminApp').style.display='block';
-    requestAnimationFrame(()=>requestAnimationFrame(()=>initAdmin()));
+    initAdmin();
   } else {
     const el=document.getElementById('pi');
     el.classList.add('err');
@@ -498,6 +498,10 @@ async function publish(){
     btn.disabled=false; btn.textContent='🚀 Publicar cambios';
     setTimeout(function(){pst.textContent='';},5000);
   }
+}
+// Auto-init when script loads (adminApp may already be visible if page reloaded)
+if(document.getElementById('adminApp') && document.getElementById('adminApp').style.display !== 'none'){
+  initAdmin();
 }
 </script>
 
