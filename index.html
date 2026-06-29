@@ -22,14 +22,12 @@
       repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,0.012) 60px,rgba(255,255,255,0.012) 61px);
     pointer-events:none;}
 
-  /* TICKER */
   .ticker-bar{background:linear-gradient(90deg,#1e3a8a,#2563eb,#1e3a8a);padding:6px 0;overflow:hidden;position:relative;z-index:1;}
   .ticker-track{display:flex;gap:3rem;animation:ticker 35s linear infinite;white-space:nowrap;}
   .ticker-item{font-family:'Orbitron';font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.9);display:flex;align-items:center;gap:8px;flex-shrink:0;}
   .ticker-item::before{content:'●';font-size:6px;opacity:0.7;}
   @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-  /* HEADER */
   header{position:sticky;top:0;z-index:100;background:rgba(5,8,16,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;}
   .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:2rem;height:64px;}
   .logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
@@ -43,7 +41,6 @@
   .nav-btn.active{color:var(--gold);background:rgba(244,196,48,0.1);}
   .nav-btn.active::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:2px;background:var(--gold);border-radius:2px;}
 
-  /* HERO */
   .hero{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:4rem 2rem 2rem;display:flex;align-items:center;gap:3rem;}
   .hero-text{flex:1;}
   .hero-eyebrow{font-family:'Orbitron';font-size:11px;letter-spacing:4px;color:var(--blue-bright);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
@@ -59,26 +56,16 @@
   .ucl-badge{font-size:100px;opacity:0.08;filter:drop-shadow(0 0 40px var(--blue));animation:float 4s ease-in-out infinite;flex-shrink:0;}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 
-  /* CONTENT */
   .content{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 2rem 4rem;}
   .tab-panel{display:none;}
   .tab-panel.active{display:block;animation:fadeUp 0.4s ease;}
   @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-  /* SECTION HEADER */
   .section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:2rem;}
   .section-title{font-family:'Bebas Neue';font-size:2rem;letter-spacing:3px;color:var(--text);}
   .section-line{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent);}
   .section-tag{font-family:'Orbitron';font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:4px;color:var(--blue-bright);border:1px solid rgba(59,130,246,0.4);background:rgba(59,130,246,0.08);}
 
-  /* PENDING NOTICE */
-  .pending-box{background:var(--bg-card);border:1px solid rgba(59,130,246,0.3);border-radius:16px;padding:4rem 2rem;text-align:center;position:relative;overflow:hidden;}
-  .pending-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),transparent);}
-  .pending-icon{font-size:3rem;margin-bottom:1rem;opacity:0.5;}
-  .pending-title{font-family:'Bebas Neue';font-size:1.8rem;letter-spacing:3px;color:var(--blue-bright);margin-bottom:0.5rem;}
-  .pending-sub{font-size:14px;color:var(--text-muted);letter-spacing:1px;line-height:1.6;}
-
-  /* INFO CARDS */
   .info-grid{display:grid;grid-template-columns:2fr 1fr;gap:2rem;align-items:start;}
   .info-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;overflow:hidden;margin-bottom:1.5rem;}
   .info-card:last-child{margin-bottom:0;}
@@ -94,17 +81,14 @@
   .av2{background:linear-gradient(135deg,#2563eb,#1e3a8a);}
   .owner-role{font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;}
   .owner-name{font-size:15px;font-weight:700;color:var(--text);}
-
   .format-steps{display:flex;flex-direction:column;gap:0.75rem;margin-top:0.75rem;}
   .format-step{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--text-dim);line-height:1.5;}
   .step-num{font-family:'Bebas Neue';font-size:1.1rem;color:var(--blue-bright);min-width:24px;flex-shrink:0;}
   .step-note{font-size:12px;color:var(--text-muted);margin-top:2px;}
-
   .discord-btn{display:inline-flex;align-items:center;gap:8px;background:#5865F2;color:white;font-family:'Rajdhani';font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;padding:10px 20px;border-radius:10px;transition:background 0.2s,transform 0.2s;box-shadow:0 0 20px rgba(88,101,242,0.3);pointer-events:auto!important;}
   .discord-btn:hover{background:#4752c4;transform:translateY(-2px);}
   .discord-icon{width:18px;height:18px;fill:white;flex-shrink:0;}
 
-  /* GROUPS */
   .groups-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;}
   .group-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;transition:transform 0.3s,box-shadow 0.3s;}
   .group-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),transparent);}
@@ -126,7 +110,6 @@
   .legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
   .legend-dot{width:8px;height:8px;border-radius:50%;}
 
-  /* STANDINGS */
   .standings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
   .standings-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;}
   .standings-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),transparent);}
@@ -156,7 +139,6 @@
   .qualify-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
   .qd-blue{background:rgba(59,130,246,0.7);}.qd-gold{background:rgba(244,196,48,0.6);}.qd-red{background:rgba(248,113,113,0.4);}
 
-  /* MATCHES */
   .matches-toolbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.75rem;flex-wrap:wrap;}
   .subtabs{display:flex;gap:0.4rem;flex-wrap:wrap;}
   .subtab-btn{background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);font-family:'Rajdhani';font-weight:600;font-size:13px;letter-spacing:1px;text-transform:uppercase;padding:7px 16px;border-radius:8px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
@@ -193,7 +175,6 @@
   .match-group-tag{font-family:'Orbitron';font-size:9px;color:var(--blue-bright);letter-spacing:1.5px;text-transform:uppercase;}
   .no-matches{text-align:center;padding:4rem 2rem;color:var(--text-muted);font-size:14px;letter-spacing:1px;}
 
-  /* BRACKET */
   .bracket-scroll{overflow-x:auto;padding-bottom:1.5rem;}
   .bracket-wrap{display:flex;gap:0;align-items:stretch;min-width:900px;}
   .bracket-round{display:flex;flex-direction:column;flex:1;}
@@ -217,7 +198,6 @@
   .champion-card{background:var(--bg-card);border:1px solid rgba(59,130,246,0.4);border-radius:10px;padding:10px 16px;text-align:center;min-width:100px;box-shadow:0 0 20px rgba(59,130,246,0.1);}
   .champion-name{font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:var(--gold);}
 
-  /* FOOTER */
   footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;}
   .footer-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
   .footer-brand{font-family:'Bebas Neue';font-size:1rem;letter-spacing:3px;color:var(--text-muted);}
@@ -226,7 +206,6 @@
   .footer-links a{font-size:12px;color:var(--text-muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:color 0.2s;pointer-events:auto!important;}
   .footer-links a:hover{color:var(--blue-bright);}
 
-  /* RESPONSIVE */
   @media(max-width:900px){
     .groups-grid{grid-template-columns:repeat(2,1fr);}
     .standings-grid{grid-template-columns:1fr;}
@@ -291,7 +270,7 @@
       <div class="stat-item"><div class="stat-num gold">1</div><div class="stat-label">Campeón</div></div>
     </div>
   </div>
-  <div class="ucl-badge">🏆</div>
+  <div class="ucl-badge"><img src="Banderas/RLA UCL OFICIAL LOGO.png" alt="logito" width="200x" height="200px"></div>
 </section>
 
 <main class="content">
@@ -393,26 +372,92 @@
 })();
 
 /* ══════════════════════════════════════
-   EQUIPOS — Editar desde el admin
+   EQUIPOS
    bombo: 1 = Bombo 1, 2 = Bombo 2
-   Dejar vacío [] en un grupo = sorteo pendiente
 ══════════════════════════════════════ */
 const GROUPS = {
-  A: [],
-  B: [],
-  C: [],
-  D: [],
+  A: [
+    {name:"Barcelona",     bombo:1},
+    {name:"Arsenal",       bombo:1},
+    {name:"Sevilla",       bombo:2},
+    {name:"Bayern München",bombo:2},
+  ],
+  B: [
+    {name:"Paris Saint-Germain", bombo:1},
+    {name:"Manchester City",     bombo:1},
+    {name:"Benfica",             bombo:2},
+    {name:"Athletic Club",       bombo:2},
+  ],
+  C: [
+    {name:"Inter de Milán",        bombo:1},
+    {name:"Ajax",                  bombo:1},
+    {name:"Crystal Palace",        bombo:2},
+    {name:"Olympique de Marsella", bombo:2},
+  ],
+  D: [
+    {name:"Juventus",        bombo:1},
+    {name:"Real Madrid",     bombo:1},
+    {name:"Bayer Leverkusen",bombo:2},
+    {name:"Roma",            bombo:2},
+  ],
 };
 
 /* ══════════════════════════════════════
-   PARTIDOS — Se generan automáticamente
-   al llenarse los grupos.
-   Para agregar resultados usa el admin.
+   PARTIDOS
+   status: "done" | "upcoming" | "live"
 ══════════════════════════════════════ */
 const MATCHES = [
-  { jornada:"Fecha 1 · Fase de Grupos", games:[] },
-  { jornada:"Fecha 2 · Fase de Grupos", games:[] },
-  { jornada:"Fecha 3 · Fase de Grupos", games:[] },
+  {
+    jornada:"Fecha 1 · Fase de Grupos",
+    games:[
+      // Grupo A
+      {grupo:"Grupo A",homeTeam:"Barcelona",     awayTeam:"Arsenal",               homeScore:"1",awayScore:"0",status:"done",   date:"Jornada 1"},
+      {grupo:"Grupo A",homeTeam:"Sevilla",       awayTeam:"Bayern München",        homeScore:"2",awayScore:"0",status:"done",   date:"Jornada 1"},
+      // Grupo B
+      {grupo:"Grupo B",homeTeam:"Manchester City",awayTeam:"Paris Saint-Germain",  homeScore:"3",awayScore:"0",status:"done",   date:"Jornada 1"},
+      {grupo:"Grupo B",homeTeam:"Benfica",        awayTeam:"Athletic Club",         homeScore:"3",awayScore:"0", status:"done",date:"Jornada 1"},
+      // Grupo C
+      {grupo:"Grupo C",homeTeam:"Ajax",           awayTeam:"Inter de Milán",        homeScore:"6",awayScore:"2",status:"done",   date:"Jornada 1"},
+      {grupo:"Grupo C",homeTeam:"Crystal Palace", awayTeam:"Olympique de Marsella", homeScore:"3",awayScore:"0",status:"done",   date:"Jornada 1"},
+      // Grupo D
+      {grupo:"Grupo D",homeTeam:"Real Madrid",    awayTeam:"Juventus",              homeScore:"3",awayScore:"0",status:"done",   date:"Jornada 1"},
+      {grupo:"Grupo D",homeTeam:"Bayer Leverkusen",awayTeam:"Roma",                 homeScore:"2",awayScore:"8",status:"done",   date:"Jornada 1"},
+    ]
+  },
+  {
+    jornada:"Fecha 2 · Fase de Grupos",
+    games:[
+      // Grupo A
+      {grupo:"Grupo A",homeTeam:"Barcelona",        awayTeam:"Sevilla",                homeScore:"",awayScore:"",status:"upcoming",date:"3–5 Jul"},
+      {grupo:"Grupo A",homeTeam:"Arsenal",           awayTeam:"Bayern München",         homeScore:"",awayScore:"",status:"upcoming",date:"3–5 Jul"},
+      // Grupo B
+      {grupo:"Grupo B",homeTeam:"Paris Saint-Germain",awayTeam:"Benfica",              homeScore:"",awayScore:"",status:"upcoming",date:"3–5 Jul"},
+      {grupo:"Grupo B",homeTeam:"Manchester City",   awayTeam:"Athletic Club",          homeScore:"",awayScore:"",status:"upcoming",date:"3–5 Jul"},
+      // Grupo C
+      {grupo:"Grupo C",homeTeam:"Inter de Milán",    awayTeam:"Crystal Palace",         homeScore:"",awayScore:"",status:"upcoming",date:"3–5 Jul"},
+      {grupo:"Grupo C",homeTeam:"Ajax",              awayTeam:"Olympique de Marsella",  homeScore:"",awayScore:"",status:"upcoming",date:"3–5 Jul"},
+      // Grupo D
+      {grupo:"Grupo D",homeTeam:"Juventus",          awayTeam:"Bayer Leverkusen",       homeScore:"",awayScore:"",status:"upcoming",date:"3–5 Jul"},
+      {grupo:"Grupo D",homeTeam:"Real Madrid",       awayTeam:"Roma",                   homeScore:"",awayScore:"",status:"upcoming",date:"3–5 Jul"},
+    ]
+  },
+  {
+    jornada:"Fecha 3 · Fase de Grupos",
+    games:[
+      // Grupo A
+      {grupo:"Grupo A",homeTeam:"Barcelona",        awayTeam:"Bayern München",          homeScore:"",awayScore:"",status:"upcoming",date:"10–12 Jul"},
+      {grupo:"Grupo A",homeTeam:"Arsenal",           awayTeam:"Sevilla",                homeScore:"",awayScore:"",status:"upcoming",date:"10–12 Jul"},
+      // Grupo B
+      {grupo:"Grupo B",homeTeam:"Paris Saint-Germain",awayTeam:"Athletic Club",         homeScore:"",awayScore:"",status:"upcoming",date:"10–12 Jul"},
+      {grupo:"Grupo B",homeTeam:"Manchester City",   awayTeam:"Benfica",                homeScore:"",awayScore:"",status:"upcoming",date:"10–12 Jul"},
+      // Grupo C
+      {grupo:"Grupo C",homeTeam:"Inter de Milán",    awayTeam:"Olympique de Marsella",  homeScore:"",awayScore:"",status:"upcoming",date:"10–12 Jul"},
+      {grupo:"Grupo C",homeTeam:"Ajax",              awayTeam:"Crystal Palace",         homeScore:"",awayScore:"",status:"upcoming",date:"10–12 Jul"},
+      // Grupo D
+      {grupo:"Grupo D",homeTeam:"Juventus",          awayTeam:"Roma",                   homeScore:"",awayScore:"",status:"upcoming",date:"10–12 Jul"},
+      {grupo:"Grupo D",homeTeam:"Real Madrid",       awayTeam:"Bayer Leverkusen",       homeScore:"",awayScore:"",status:"upcoming",date:"10–12 Jul"},
+    ]
+  },
 ];
 
 /* ══════════════════════════════════════
@@ -434,16 +479,15 @@ const BRACKET = {
 };
 
 /* ══ HELPERS ══ */
-const sorteoRealizado = () => Object.values(GROUPS).every(g => g.length === 4);
-
 const PENDING_HTML = `
-  <div class="pending-box">
-    <div class="pending-icon">⏳</div>
-    <div class="pending-title">Sorteo Pendiente</div>
-    <div class="pending-sub">Esta sección se actualizará una vez que se realice<br>el sorteo oficial de la RLA Champions League.</div>
+  <div style="background:var(--bg-card);border:1px solid rgba(59,130,246,0.3);border-radius:16px;padding:4rem 2rem;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),transparent);"></div>
+    <div style="font-size:3rem;margin-bottom:1rem;opacity:0.5;">⏳</div>
+    <div style="font-family:'Bebas Neue';font-size:1.8rem;letter-spacing:3px;color:var(--blue-bright);margin-bottom:0.5rem;">Próximamente</div>
+    <div style="font-size:14px;color:var(--text-muted);letter-spacing:1px;line-height:1.6;">Esta sección se actualizará con los próximos partidos.</div>
   </div>`;
 
-/* ══ TEAMS LIST en General ══ */
+/* ══ TEAMS LIST ══ */
 function renderTeamsList() {
   const el = document.getElementById('teamsList');
   const bombo1 = [], bombo2 = [];
@@ -451,13 +495,9 @@ function renderTeamsList() {
     if(t.bombo === 1) bombo1.push(t.name);
     else bombo2.push(t.name);
   }));
-  if(!bombo1.length && !bombo2.length) {
-    el.innerHTML = '<p style="font-size:14px;color:var(--text-muted);letter-spacing:1px;">Los equipos se confirmarán tras el sorteo.</p>';
-    return;
-  }
   let html = '';
   if(bombo1.length) {
-    html += `<div style="margin-bottom:1rem;"><div style="font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:0.5rem;display:flex;align-items:center;gap:8px;"><div class="legend-dot bombo-1" style="width:8px;height:8px;border-radius:50%;background:var(--gold);"></div>Bombo 1</div>
+    html += `<div style="margin-bottom:1rem;"><div style="font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:0.5rem;display:flex;align-items:center;gap:8px;"><div style="width:8px;height:8px;border-radius:50%;background:var(--gold);"></div>Bombo 1</div>
     <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">${bombo1.map(t=>`<span style="background:var(--bg-card2);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:13px;font-weight:600;">${t}</span>`).join('')}</div></div>`;
   }
   if(bombo2.length) {
@@ -470,7 +510,6 @@ function renderTeamsList() {
 /* ══ GRUPOS ══ */
 function renderGroups() {
   const el = document.getElementById('groupsContent');
-  if(!sorteoRealizado()) { el.innerHTML = PENDING_HTML; return; }
   el.innerHTML = `<div class="groups-grid">${Object.entries(GROUPS).map(([letter,teams])=>`
     <div class="group-card">
       <div class="group-header">
@@ -496,7 +535,7 @@ function renderPartidos() {
   const countTag = document.getElementById('matchesCount');
 
   const hasGames = MATCHES.some(f => f.games.length > 0);
-  if(!sorteoRealizado() || !hasGames) {
+  if(!hasGames) {
     el.innerHTML = PENDING_HTML;
     countTag.textContent = '0 Partidos';
     return;
@@ -529,30 +568,35 @@ function renderMatchCards() {
   const byGroup = {};
   games.forEach(m=>{if(!byGroup[m.grupo])byGroup[m.grupo]=[];byGroup[m.grupo].push(m);});
   let html='';
-  Object.entries(byGroup).forEach(([grupo,matches])=>{
-    html+=`<p class="jornada-label">${grupo}</p>`;
-    matches.forEach(m=>{
-      const badgeClass={upcoming:'badge-upcoming',live:'badge-live',done:'badge-done'}[m.status];
-      const badgeText={upcoming:'Próximo',live:'⬤ En vivo',done:'Finalizado'}[m.status];
-      const scoreHTML=(m.status==='live'||m.status==='done')
-        ?`<div class="match-score-num">${m.homeScore} – ${m.awayScore}</div>`
-        :`<div class="match-score-vs">VS</div>`;
-      html+=`<div class="match-card ${m.status}">
-        <div class="match-teams">
-          <div class="match-team"><span class="match-team-name">${m.homeTeam}</span></div>
-          <div class="match-score">${scoreHTML}</div>
-          <div class="match-team"><span class="match-team-name">${m.awayTeam}</span></div>
-        </div>
-        <div class="match-meta">
-          <span class="match-badge ${badgeClass}">${badgeText}</span>
-          <span class="match-date">${m.date}</span>
-          <span class="match-group-tag">${m.grupo}</span>
-        </div>
-      </div>`;
+  if(Object.keys(byGroup).length === 0) {
+    html = '<div class="no-matches">No hay partidos en esta categoría.</div>';
+  } else {
+    Object.entries(byGroup).forEach(([grupo,matches])=>{
+      html+=`<p class="jornada-label">${grupo}</p>`;
+      matches.forEach(m=>{
+        const badgeClass={upcoming:'badge-upcoming',live:'badge-live',done:'badge-done'}[m.status];
+        const badgeText={upcoming:'Próximo',live:'⬤ En vivo',done:'Finalizado'}[m.status];
+        const scoreHTML=(m.status==='live'||m.status==='done')
+          ?`<div class="match-score-num">${m.homeScore} – ${m.awayScore}</div>`
+          :`<div class="match-score-vs">VS</div>`;
+        html+=`<div class="match-card ${m.status}">
+          <div class="match-teams">
+            <div class="match-team"><span class="match-team-name">${m.homeTeam}</span></div>
+            <div class="match-score">${scoreHTML}</div>
+            <div class="match-team"><span class="match-team-name">${m.awayTeam}</span></div>
+          </div>
+          <div class="match-meta">
+            <span class="match-badge ${badgeClass}">${badgeText}</span>
+            <span class="match-date">${m.date}</span>
+            <span class="match-group-tag">${m.grupo}</span>
+          </div>
+        </div>`;
+      });
     });
-  });
-  container.innerHTML = html||'<div class="no-matches">No hay partidos en esta categoría.</div>';
-  countTag.textContent=`${games.length} Partido${games.length!==1?'s':''}`;
+  }
+  container.innerHTML = html;
+  const total = jornada.games.filter(g=>currentFilter==='all'||g.status===currentFilter).length;
+  countTag.textContent=`${total} Partido${total!==1?'s':''}`;
 }
 
 function switchFecha(i,btn){currentFecha=i;renderPartidos();}
@@ -561,8 +605,6 @@ function setFilter(f,btn){currentFilter=f;renderMatchCards();}
 /* ══ POSICIONES ══ */
 function renderPosiciones() {
   const el = document.getElementById('posicionesContent');
-  if(!sorteoRealizado()) { el.innerHTML = PENDING_HTML; return; }
-
   const stats={};
   Object.entries(GROUPS).forEach(([letter,teams])=>teams.forEach(t=>{
     stats[t.name]={name:t.name,group:letter,pj:0,g:0,e:0,p:0,gf:0,gc:0};
@@ -607,7 +649,7 @@ function renderPosiciones() {
           const p=t.g*3+t.e,dg=t.gf-t.gc;
           const dgClass=dg>0?'td-gd-pos':dg<0?'td-gd-neg':'td-gd-zero';
           const dgStr=dg>0?'+'+dg:String(dg);
-          const rowClass=`qualify-${t.qualify==='ucl'?'ucl':t.qualify==='el'?'el':''}${t.qualify==='eliminated'?'eliminated':''}`;
+          const rowClass=t.qualify==='ucl'?'qualify-ucl':t.qualify==='el'?'qualify-el':'eliminated';
           return`<tr class="${rowClass}"><td class="pos-num">${i+1}</td><td class="td-team"><span class="td-team-name">${t.name}</span></td><td>${t.pj}</td><td>${t.g}</td><td>${t.e}</td><td>${t.p}</td><td class="${dgClass}">${dgStr}</td><td class="td-pts">${p}</td></tr>`;
         }).join('')}</tbody>
       </table>
@@ -621,7 +663,7 @@ function renderPosiciones() {
 function renderBrackets() {
   const el = document.getElementById('bracketsContent');
   const hasData = BRACKET.qf.some(m=>m.home.name||m.away.name);
-  if(!sorteoRealizado() && !hasData) { el.innerHTML = PENDING_HTML; return; }
+  if(!hasData) { el.innerHTML = PENDING_HTML; return; }
 
   const rounds = [
     {label:'Cuartos de Final', matches:BRACKET.qf},
