@@ -217,6 +217,14 @@
   .champion-card{background:var(--bg-card);border:1px solid rgba(59,130,246,0.4);border-radius:10px;padding:10px 16px;text-align:center;min-width:100px;box-shadow:0 0 20px rgba(59,130,246,0.1);}
   .champion-name{font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:var(--gold);}
 
+  /* BRACKET MATCH HEADER */
+  .bk-match-header{display:flex;align-items:center;justify-content:space-between;padding:6px 10px 4px;border-bottom:1px solid var(--border);gap:6px;flex-wrap:wrap;}
+  .bk-stadium{font-family:'Orbitron';font-size:8px;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .bk-badge{font-family:'Orbitron';font-size:8px;letter-spacing:1px;font-weight:700;padding:3px 8px;border-radius:5px;text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+  .bk-upcoming{background:rgba(255,255,255,0.05);color:var(--text-muted);border:1px solid var(--border);}
+  .bk-live{background:rgba(248,113,113,0.15);color:#fca5a5;border:1px solid rgba(248,113,113,0.3);animation:livePulse 1.5s ease-in-out infinite;}
+  .bk-done{background:rgba(99,153,34,0.12);color:#86efac;border:1px solid rgba(99,153,34,0.25);}
+
   /* FOOTER */
   footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;}
   .footer-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
@@ -447,7 +455,7 @@ const MATCHES = [
     jornada:"Fecha 2 · Fase de Grupos",
     games:[
       {grupo:"Grupo A",homeTeam:"Barcelona",           awayTeam:"Sevilla",               homeScore:4,awayScore:2,status:"done",date:"3 Jul"},
-      {grupo:"Grupo A",homeTeam:"Arsenal",              awayTeam:"Bayern München",         homeScore:3,awayScore:0,status:"done",   date:"3 Jul"},
+      {grupo:"Grupo A",homeTeam:"Arsenal",              awayTeam:"Bayern München",         homeScore:3,awayScore:0,status:"done",date:"3 Jul"},
       {grupo:"Grupo B",homeTeam:"Paris Saint-Germain",  awayTeam:"Benfica",               homeScore:0,awayScore:0,status:"done",date:"4 Jul"},
       {grupo:"Grupo B",homeTeam:"Manchester City",      awayTeam:"Athletic Club",          homeScore:3,awayScore:0,status:"done",date:"4 Jul"},
       {grupo:"Grupo C",homeTeam:"Inter de Milán",       awayTeam:"Crystal Palace",         homeScore:0,awayScore:3,status:"done",date:"5 Jul"},
@@ -476,16 +484,16 @@ const MATCHES = [
 ══════════════════════════════════════ */
 const BRACKET = {
   qf: [
-    {home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
-    {home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
-    {home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
-    {home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
+    {stadium:"Sanctuary Lane · 20:00 RF",status:"upcoming",home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
+    {stadium:"Skyline Stadium · 18:00 RF",status:"upcoming",home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
+    {stadium:"Stade de Futbol · 20:00 RF",status:"upcoming",home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
+    {stadium:"World Arena · 14:00 RF",status:"upcoming",home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
   ],
   sf: [
-    {home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
-    {home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
+    {stadium:"Sanctuary Lane · 12:00 RF",status:"upcoming",home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
+    {stadium:"Skyline Stadium · 14:00 RF",status:"upcoming",home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}},
   ],
-  final: [{home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}}],
+  final: [{stadium:"World Arena · 12:00 RF",status:"upcoming",home:{name:"",score:"",winner:false},away:{name:"",score:"",winner:false}}],
   champion: "",
 };
 
@@ -711,72 +719,148 @@ function renderPosiciones() {
 function renderBrackets() {
   const el = document.getElementById('bracketsContent');
 
-  // Calcular equipos clasificados para auto-llenar cuartos
-  // Solo poner equipo en bracket si está matemáticamente clasificado
-  // (nadie por debajo puede alcanzar sus puntos aunque gane todo)
-  const stats = calcStatsAll();
+  /* ── Calcular clasificados matemáticos por grupo ── */
+  const stats    = calcStatsAll();
   const byGroupB = {};
-  Object.values(stats).forEach(t=>{if(!byGroupB[t.group])byGroupB[t.group]=[];byGroupB[t.group].push(t);});
+  Object.values(stats).forEach(function(t) {
+    if (!byGroupB[t.group]) byGroupB[t.group] = [];
+    byGroupB[t.group].push(t);
+  });
+
   const cl = {};
-  Object.entries(byGroupB).forEach(([letter, teams]) => {
+  Object.entries(byGroupB).forEach(function(entry) {
+    const letter = entry[0];
+    const teams  = entry[1];
     const sorted = sortGroupArr(teams);
-    // 1° confirmado si el 3° no puede alcanzarlo aunque gane todo
     const first  = sorted[0];
     const second = sorted[1];
     const third  = sorted[2];
-    const fourth = sorted[3];
-    const firstConfirmed  = ptsT(third)  + pendingForTeam(third.name,  letter)*3 < ptsT(first);
-    const secondConfirmed = ptsT(fourth) + pendingForTeam(fourth.name, letter)*3 < ptsT(second)
-                         && ptsT(third)  + pendingForTeam(third.name,  letter)*3 < ptsT(second);
+
+    const thirdMax   = ptsT(third) + pendingForTeam(third.name, letter) * 3;
+    const pending3   = pendingForTeam(third.name, letter);
+    const firstConf  = thirdMax < ptsT(first);
+    const secondConf = thirdMax < ptsT(second) ||
+      (thirdMax === ptsT(second) &&
+       (second.gf - second.gc) - (third.gf - third.gc) > pending3 * 15);
+
     cl[letter] = {
-      first:  firstConfirmed  ? first  : null,
-      second: secondConfirmed ? second : null,
+      first:  firstConf  ? first  : null,
+      second: secondConf ? second : null,
     };
   });
 
-  // Cruce: 1A vs 2B, 1B vs 2A, 1C vs 2D, 1D vs 2C
-  const autoQF = [
-    {home:{name:cl.A?.first?.name||"",  score:BRACKET.qf[0].home.score, winner:BRACKET.qf[0].home.winner}, away:{name:cl.B?.second?.name||"", score:BRACKET.qf[0].away.score, winner:BRACKET.qf[0].away.winner}},
-    {home:{name:cl.B?.first?.name||"",  score:BRACKET.qf[1].home.score, winner:BRACKET.qf[1].home.winner}, away:{name:cl.A?.second?.name||"", score:BRACKET.qf[1].away.score, winner:BRACKET.qf[1].away.winner}},
-    {home:{name:cl.C?.first?.name||"",  score:BRACKET.qf[2].home.score, winner:BRACKET.qf[2].home.winner}, away:{name:cl.D?.second?.name||"", score:BRACKET.qf[2].away.score, winner:BRACKET.qf[2].away.winner}},
-    {home:{name:cl.D?.first?.name||"",  score:BRACKET.qf[3].home.score, winner:BRACKET.qf[3].home.winner}, away:{name:cl.C?.second?.name||"", score:BRACKET.qf[3].away.score, winner:BRACKET.qf[3].away.winner}},
+  /* ── Construir QF mezclando clasificados automáticos + datos manuales del BRACKET ── */
+  // Cruce: 1A vs 2B | 1B vs 2A | 1C vs 2D | 1D vs 2C
+  const pairings = [
+    { autoHome: cl.A && cl.A.first,  autoAway: cl.B && cl.B.second, bk: BRACKET.qf[0] },
+    { autoHome: cl.B && cl.B.first,  autoAway: cl.A && cl.A.second, bk: BRACKET.qf[1] },
+    { autoHome: cl.C && cl.C.first,  autoAway: cl.D && cl.D.second, bk: BRACKET.qf[2] },
+    { autoHome: cl.D && cl.D.first,  autoAway: cl.C && cl.C.second, bk: BRACKET.qf[3] },
   ];
 
-  const B = { qf: autoQF, sf: BRACKET.sf, final: BRACKET.final, champion: BRACKET.champion };
+  const autoQF = pairings.map(function(p) {
+    return {
+      stadium: p.bk.stadium,
+      status:  p.bk.status,
+      home: {
+        name:   p.autoHome ? p.autoHome.name : (p.bk.home.name || ''),
+        score:  p.bk.home.score,
+        winner: p.bk.home.winner,
+      },
+      away: {
+        name:   p.autoAway ? p.autoAway.name : (p.bk.away.name || ''),
+        score:  p.bk.away.score,
+        winner: p.bk.away.winner,
+      },
+    };
+  });
 
-  const hasData = true; // siempre mostrar bracket
-  if(!hasData) { el.innerHTML = PENDING_HTML; return; }
+  const B = {
+    qf:      autoQF,
+    sf:      BRACKET.sf,
+    final:   BRACKET.final,
+    champion: BRACKET.champion,
+  };
 
-  const rounds = [
-    {label:'Cuartos de Final', matches:B.qf},
-    {label:'Semifinales',      matches:B.sf},
-    {label:'Final',            matches:B.final},
-  ];
-
-  function teamHTML(t){
-    return`<div class="bracket-team ${t.winner?'winner':''}">
-      <span class="${t.name?'bt-name':'bt-tbd'}">${t.name||'Por definir'}</span>
-      <span class="bt-score ${t.winner?'winner-score':''}">${t.score}</span>
-    </div>`;
+  /* ── Helper: badge de estado ── */
+  function statusBadge(status) {
+    if (status === 'done') {
+      return '<span class="bk-badge bk-done">Finalizado</span>';
+    }
+    if (status === 'live') {
+      return '<span class="bk-badge bk-live">⬤ En Vivo</span>';
+    }
+    return '<span class="bk-badge bk-upcoming">Próximo</span>';
   }
 
-  let html='<div class="bracket-scroll"><div class="bracket-wrap">';
-  rounds.forEach((round,ri)=>{
-    html+=`<div class="bracket-round">
-      <div class="bracket-round-title">${round.label}</div>
-      <div class="bracket-round-matches">
-        ${round.matches.map(m=>`<div class="bracket-match-wrap"><div class="bracket-match">${teamHTML(m.home)}${teamHTML(m.away)}</div></div>`).join('')}
-      </div>
-    </div>`;
-    if(ri<rounds.length-1){
-      html+=`<div class="bracket-connector"><svg width="24" height="100%" style="width:24px;height:100%"><line x1="0" y1="50%" x2="24" y2="50%" stroke="rgba(59,130,246,0.2)" stroke-width="1"/></svg></div>`;
+  /* ── Helper: HTML de una fila de equipo ── */
+  function teamRow(t, isHome) {
+    const winnerClass = t.winner ? ' winner' : '';
+    const nameHTML    = t.name
+      ? '<span class="bt-name">' + t.name + '</span>'
+      : '<span class="bt-tbd">Por definir</span>';
+    const scoreHTML   = (t.score !== '' && t.score !== undefined)
+      ? '<span class="bt-score' + (t.winner ? ' winner-score' : '') + '">' + t.score + '</span>'
+      : '';
+    const borderClass = isHome ? ' bt-home' : ' bt-away';
+    return '<div class="bracket-team' + winnerClass + borderClass + '">'
+      + nameHTML
+      + scoreHTML
+      + '</div>';
+  }
+
+  /* ── Helper: HTML de un partido completo ── */
+  function matchHTML(m) {
+    return '<div class="bracket-match">'
+      + '<div class="bk-match-header">'
+      +   '<span class="bk-stadium">' + m.stadium + '</span>'
+      +   statusBadge(m.status)
+      + '</div>'
+      + teamRow(m.home, true)
+      + teamRow(m.away, false)
+      + '</div>';
+  }
+
+  /* ── Renderizar rondas ── */
+  const rounds = [
+    { label: 'Cuartos de Final', matches: B.qf    },
+    { label: 'Semifinales',      matches: B.sf    },
+    { label: 'Final',            matches: B.final },
+  ];
+
+  let html = '<div class="bracket-scroll"><div class="bracket-wrap">';
+
+  rounds.forEach(function(round, ri) {
+    html += '<div class="bracket-round">';
+    html +=   '<div class="bracket-round-title">' + round.label + '</div>';
+    html +=   '<div class="bracket-round-matches">';
+    round.matches.forEach(function(m) {
+      html += '<div class="bracket-match-wrap">' + matchHTML(m) + '</div>';
+    });
+    html +=   '</div>';
+    html += '</div>';
+
+    if (ri < rounds.length - 1) {
+      html += '<div class="bracket-connector">'
+        + '<svg width="24" height="100%" style="width:24px;height:100%">'
+        + '<line x1="0" y1="50%" x2="24" y2="50%" stroke="rgba(59,130,246,0.2)" stroke-width="1"/>'
+        + '</svg></div>';
     }
   });
-  html+=`<div class="bracket-champion">
-    <div class="champion-label">🏆 Campeón</div>
-    <div class="champion-card">${B.champion?`<div class="champion-name">${B.champion}</div>`:`<div class="bt-tbd">Por definir</div>`}</div>
-  </div>`;
-  html+='</div></div>';
+
+  /* ── Campeón ── */
+  html += '<div class="bracket-champion">';
+  html +=   '<div class="champion-label">🏆 Campeón</div>';
+  html +=   '<div class="champion-card">';
+  if (B.champion) {
+    html += '<div class="champion-name">' + B.champion + '</div>';
+  } else {
+    html += '<div class="bt-tbd">Por definir</div>';
+  }
+  html +=   '</div>';
+  html += '</div>';
+
+  html += '</div></div>';
   el.innerHTML = html;
 }
 
