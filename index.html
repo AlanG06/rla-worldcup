@@ -756,13 +756,20 @@ function renderBrackets() {
     };
   });
 
-  /* ── Construir QF mezclando clasificados automáticos + datos manuales del BRACKET ── */
-  // Cruce: 1A vs 2B | 1B vs 2A | 1C vs 2D | 1D vs 2C
+  /* ── Construir QF mezclando clasificados automáticos + datos manuales del BRACKET ──
+     Cruce: 1A vs 2B | 1B vs 2A | 1C vs 2D | 1D vs 2C
+     IMPORTANTE: el orden aquí NO es el mismo que en BRACKET.qf. Los cruces
+     1A-2B y 1B-2A comparten los 4 equipos del bloque A/B, así que si quedaran
+     uno junto al otro, sus ganadores (posiblemente del mismo grupo) caerían
+     en la misma semifinal y podrían repetir un partido de la fase de grupos.
+     Por eso se intercalan con un cruce del bloque C/D entre ellos: así, cada
+     mitad del bracket (posiciones 0-1 y 2-3) siempre mezcla un ganador del
+     bloque A/B con uno del bloque C/D, y nunca pueden repetirse rivales. */
   const pairings = [
-    { autoHome: cl.A && cl.A.first,  autoAway: cl.B && cl.B.second, bk: BRACKET.qf[0] },
-    { autoHome: cl.B && cl.B.first,  autoAway: cl.A && cl.A.second, bk: BRACKET.qf[1] },
-    { autoHome: cl.C && cl.C.first,  autoAway: cl.D && cl.D.second, bk: BRACKET.qf[2] },
-    { autoHome: cl.D && cl.D.first,  autoAway: cl.C && cl.C.second, bk: BRACKET.qf[3] },
+    { autoHome: cl.A && cl.A.first,  autoAway: cl.B && cl.B.second, bk: BRACKET.qf[0] }, // Sanctuary Lane: 1A vs 2B
+    { autoHome: cl.C && cl.C.first,  autoAway: cl.D && cl.D.second, bk: BRACKET.qf[2] }, // Stade de Futbol: 1C vs 2D
+    { autoHome: cl.B && cl.B.first,  autoAway: cl.A && cl.A.second, bk: BRACKET.qf[1] }, // Skyline Stadium: 1B vs 2A
+    { autoHome: cl.D && cl.D.first,  autoAway: cl.C && cl.C.second, bk: BRACKET.qf[3] }, // World Arena: 1D vs 2C
   ];
 
   const autoQF = pairings.map(function(p) {
