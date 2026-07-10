@@ -660,13 +660,13 @@ function pendingForTeam(teamName, groupLetter){
 
 function assignQualify(sorted, groupLetter){
   return sorted.map((t,i)=>{
-    const myMax = ptsT(t) + pendingForTeam(t.name, groupLetter)*3;
     // 4to siempre eliminado
     if(i===3) return {...t, qualify:'eliminated'};
-    // 3ro: EL provisional, pero eliminado si no puede alcanzar el 2do
+    // 3ro: SIEMPRE clasifica a Europa League (regla del torneo: los 4
+    // terceros de grupo avanzan a semifinales de EL). Nunca se marca como
+    // "eliminado" — el rojo es exclusivo del 4to lugar.
     if(i===2){
-      const rank2pts = ptsT(sorted[1]);
-      return {...t, qualify: myMax < rank2pts ? 'eliminated' : 'el'};
+      return {...t, qualify:'el'};
     }
     // 1ro y 2do: UCL. Marcamos como clasificado si nadie de abajo puede alcanzarlos
     const maxBelow = sorted.slice(i+1).reduce((mx,b)=>Math.max(mx, ptsT(b)+pendingForTeam(b.name,groupLetter)*3), 0);
