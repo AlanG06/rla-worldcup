@@ -736,12 +736,19 @@ function renderBrackets() {
     const second = sorted[1];
     const third  = sorted[2];
 
-    const thirdMax   = ptsT(third) + pendingForTeam(third.name, letter) * 3;
-    const pending3   = pendingForTeam(third.name, letter);
-    const firstConf  = thirdMax < ptsT(first);
-    const secondConf = thirdMax < ptsT(second) ||
-      (thirdMax === ptsT(second) &&
-       (second.gf - second.gc) - (third.gf - third.gc) > pending3 * 15);
+    const pendThird  = pendingForTeam(third.name, letter);
+    const pendFirst  = pendingForTeam(first.name, letter);
+    const pendSecond = pendingForTeam(second.name, letter);
+    const thirdMax   = ptsT(third) + pendThird * 3;
+
+    // Confirmado cuando es matemáticamente imposible que el 3ro alcance en
+    // PUNTOS al 1ro/2do. Si empatarían en puntos (thirdMax === ptsT(x)),
+    // solo queda decidido por diferencia de gol de partidos que aún no se
+    // juegan — salvo que ambos equipos ya no tengan partidos pendientes,
+    // en cuyo caso el empate ya está resuelto de forma permanente por la
+    // diferencia de gol actual (reflejada en el orden de sortGroupArr).
+    const firstConf  = thirdMax < ptsT(first)  || (thirdMax === ptsT(first)  && pendThird === 0 && pendFirst === 0);
+    const secondConf = thirdMax < ptsT(second) || (thirdMax === ptsT(second) && pendThird === 0 && pendSecond === 0);
 
     cl[letter] = {
       first:  firstConf  ? first  : null,
