@@ -1529,6 +1529,109 @@
         border: 1px solid rgba(74, 222, 128, 0.25);
       }
 
+      /* ROSTERS */
+      .roster-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+      .roster-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+      }
+      .roster-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--gold), transparent);
+      }
+      .roster-card:hover {
+        transform: translateY(-3px);
+        box-shadow:
+          0 16px 44px rgba(0, 0, 0, 0.45),
+          0 0 0 1px rgba(245, 197, 24, 0.18);
+      }
+      .roster-header {
+        padding: 14px 18px 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      .roster-team-name {
+        font-family: "Anton";
+        font-size: 1.15rem;
+        letter-spacing: 0.5px;
+        color: var(--gold);
+      }
+      .roster-count {
+        margin-left: auto;
+        font-family: "Space Mono";
+        font-size: 9px;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+      }
+      .roster-staff {
+        padding: 10px 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        border-bottom: 1px solid var(--border);
+      }
+      .roster-staff-chip {
+        font-family: "Space Mono";
+        font-size: 10px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        background: var(--bg-card2);
+        border: 1px solid var(--border);
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+      .roster-staff-chip b {
+        color: var(--gold);
+        margin-right: 4px;
+      }
+      .roster-body {
+        padding: 14px 18px 16px;
+      }
+      .roster-section-label {
+        font-family: "Space Mono";
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin: 12px 0 6px;
+      }
+      .roster-section-label:first-child {
+        margin-top: 0;
+      }
+      .roster-players {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .roster-player {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        background: var(--bg-card2);
+        border: 1px solid var(--border);
+        padding: 4px 10px;
+        border-radius: 8px;
+      }
+
       /* FOOTER */
       footer {
         position: relative;
@@ -1584,6 +1687,9 @@
           grid-template-columns: 1fr;
         }
         .info-grid {
+          grid-template-columns: 1fr;
+        }
+        .roster-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -1710,6 +1816,7 @@
           <button class="nav-btn" onclick="showTab('grupos', this)">Grupos</button>
           <button class="nav-btn" onclick="showTab('partidos', this)">Partidos</button>
           <button class="nav-btn" onclick="showTab('posiciones', this)">Posiciones</button>
+          <button class="nav-btn" onclick="showTab('rosters', this)">Plantillas</button>
           <button class="nav-btn" onclick="showTab('brackets', this)">Brackets</button>
         </nav>
       </div>
@@ -1906,6 +2013,16 @@
         <div id="posicionesContent"></div>
       </div>
 
+      <!-- PLANTILLAS / ROSTERS -->
+      <div class="tab-panel" id="tab-rosters">
+        <div class="section-header">
+          <h2 class="section-title">Plantillas</h2>
+          <div class="section-line"></div>
+          <span class="section-tag">16 Selecciones</span>
+        </div>
+        <div id="rostersContent"></div>
+      </div>
+
       <!-- BRACKETS -->
       <div class="tab-panel" id="tab-brackets">
         <div class="section-header">
@@ -2019,6 +2136,412 @@
           { name: "Portugal", flag: "Banderas/portu.png", bombo: 3 },
           { name: "Cabo Verde", flag: "Banderas/caboverde.png", bombo: 4 },
         ],
+      };
+
+      /* ══════════════════════════════════════
+   ROSTERS — Plantillas oficiales por selección.
+   Editar aquí para agregar/actualizar jugadores.
+   Formato: staff: [{role, name}], sections: [{label, players: []}]
+══════════════════════════════════════ */
+      const ROSTERS = {
+        Portugal: {
+          staff: [
+            { role: "DT", name: "diciloncar21m" },
+            { role: "AT", name: "valex1234u" },
+          ],
+          sections: [
+            {
+              label: "Plantilla",
+              players: [
+                "kkohhhhhhh",
+                "bustoskk28",
+                "jamilex7",
+                "Vixxo400",
+                "Elemenntss",
+                "iTzMeeL0",
+                "KevinYys8",
+                "96lko",
+                "ronaldino_450",
+                "actvyn",
+                "5krayzzz",
+                "InigoMartineez",
+                "Geronimo375",
+              ],
+            },
+          ],
+        },
+        Francia: {
+          staff: [
+            { role: "DT", name: "SoyJoyaTMM" },
+            { role: "AT", name: "ruh." },
+          ],
+          sections: [
+            {
+              label: "Plantilla",
+              players: [
+                "Faxboypip",
+                "ruh.",
+                "lvpefiasco",
+                "emma_gk",
+                "xiromega",
+                "KiwwiPrime",
+                "elsalluye13",
+                "IIAleIl",
+                "Zorro_1080",
+                "yogurcito remix",
+                "SauromXDxd",
+                "ForIanvyn",
+                "FFTFyboklgyjou4",
+                "javierhernandez24367",
+                "kuvezzna",
+                "imgussxdnt",
+                "rpsisadi",
+              ],
+            },
+          ],
+        },
+        Bolivia: {
+          staff: [
+            { role: "Manager", name: "FutureRivrs" },
+            { role: "Asst. Manager", name: "Juanitoalcachofa123k" },
+            { role: "Capitán", name: "SaiPan004" },
+          ],
+          sections: [
+            { label: "Porteros", players: ["𝖉𝖎𝖇𝖚𝖒𝖆𝖗𝖙𝖎𝖓𝖊𝖟", "UsoTutubo"] },
+            {
+              label: "Defensas",
+              players: [
+                "SaiPan004 (C)",
+                "Alejandeito09081",
+                "pepe23456712",
+                "santimoxne",
+                "xyxyxyxx33",
+              ],
+            },
+            { label: "Mediocampistas", players: ["Juanitoalcachofa123k", "1Hiuck"] },
+            { label: "Delanteros", players: ["FutureRivrs", "Batmanxczza"] },
+          ],
+        },
+        Inglaterra: {
+          staff: [
+            { role: "DT", name: "Alecrack2310" },
+            { role: "AT", name: "mastermen911" },
+          ],
+          sections: [
+            {
+              label: "Plantilla",
+              players: [
+                "RFBJA2013",
+                "death (edu)",
+                "minecraft07juaquo",
+                "sanstiago214",
+                "arxss.rf24",
+                "lewataleTETEPALFE1",
+                "messi_474i2",
+                "kinnkata 3.0",
+                "Fabri?.",
+                "TekkoHuee",
+                "x7_MATHEUS29",
+                "juancz_02",
+                "wilbufb_z18386",
+                "Alt_Mr15",
+                "raultiyo",
+              ],
+            },
+          ],
+        },
+        Uruguay: {
+          staff: [
+            { role: "DT", name: "Hakermar03" },
+            { role: "AT", name: "NoSoyEpick" },
+          ],
+          sections: [
+            { label: "Arqueros", players: ["unIimitvd", "Hakermar03"] },
+            {
+              label: "Defensores",
+              players: [
+                "tuvieja1345678",
+                "joseyjoaco274",
+                "Lesmitooo",
+                "TekkoHuee",
+                "CodeGhostvFake",
+                "MarceMrz",
+              ],
+            },
+            {
+              label: "Delanteros",
+              players: [
+                "afk31217",
+                "NoSoyEpick",
+                "Mtv",
+                "rubencitopro_7u7",
+                "aaron_gamer72",
+                "elcofla24cm24cm",
+                "punisher2304",
+              ],
+            },
+          ],
+        },
+        Perú: {
+          staff: [
+            { role: "DT", name: "Soto201310" },
+            { role: "AT", name: "trucomovil" },
+          ],
+          sections: [
+            {
+              label: "Plantilla",
+              players: [
+                "ejcl1969",
+                "cebollaazul",
+                "Itz.thgzzz 14",
+                "emer712",
+                "FancoGamerXD",
+                "IIII",
+                "banjon998",
+                "Soto201310",
+                "trucomovil",
+                "🅿️ulido",
+                "c1rxzq",
+                "x7_MATHEUS29",
+                "lucasfg286",
+                "mochitobb7",
+                "ney366",
+                "ANGELCRUZ_777",
+                "cityboyy297",
+                "Good_123239",
+                "Shouko_Komi7u7",
+              ],
+            },
+          ],
+        },
+        Argentina: {
+          staff: [],
+          sections: [
+            { label: "Porteros", players: ["roblox_sadferr", "RobloxFirefox345", "ibtvdt8"] },
+            {
+              label: "Centrales",
+              players: [
+                "Dulsasic",
+                "ohiorubentuesta9",
+                "Dragonauta39",
+                "RaxerF1",
+                "soymid01",
+                "LE BIRD ALCAPONE Москалович",
+                "Cufinhaa",
+                "100LEGIT_DHSR",
+                "r0mannnnnnnnnnnnnn",
+              ],
+            },
+            { label: "Mediocampistas", players: ["V4LEEEN12", "67xxpatapinxx67"] },
+            {
+              label: "Delanteros",
+              players: ["Th3B0iiiiii", "kaitzu18", "zFxbryxz", "ForIanvyn"],
+            },
+          ],
+        },
+        Ecuador: {
+          staff: [
+            { role: "DT", name: "luccianogm12" },
+            { role: "AT", name: "𝕬𝖗𝖎𝖊𝖑" },
+          ],
+          sections: [
+            {
+              label: "Plantilla",
+              players: [
+                "AsotaAnos1",
+                "Ａｚｒｉｅｌ",
+                "Lxrxy27",
+                "Aleejo",
+                "75df4",
+                "adrianmanci",
+                "0Ariel_1",
+                "Fadnen",
+                "Pantera_tito",
+                "fransmuri",
+                "Rikudown7770",
+                "Feid9k",
+                "diegcksaack2",
+                "JHORCHONOooo",
+                "damikitushaker",
+              ],
+            },
+          ],
+        },
+        Japón: {
+          staff: [{ role: "DT", name: "piratekingOPNESS" }],
+          sections: [
+            {
+              label: "Plantilla",
+              players: [
+                "LevAnkaraMessi",
+                "Blaze2008162",
+                "itachi99032",
+                "juancz_02",
+                "Shouko_Komi7u7",
+                "bacon",
+                "Illusions✨",
+                "Marcmzz",
+                "simplypaat",
+                "𝖓𝖆𝖘𝖗𝖆",
+                "ETHANMILAN",
+              ],
+            },
+          ],
+        },
+        Colombia: {
+          staff: [],
+          sections: [
+            { label: "Portero", players: ["jalousite"] },
+            {
+              label: "Centrales",
+              players: ["jondresito3", "fftekuuu", "faerdsv", "Jxxirr", "dante_za0"],
+            },
+            { label: "Mediocampistas", players: ["sxnoIoto", "alzxesz"] },
+            { label: "Delanteros", players: ["holguinh", "LocalJobFinding", "samu1zk"] },
+          ],
+        },
+        "Cabo Verde": {
+          staff: [],
+          sections: [
+            { label: "Portero", players: ["KQ4782"] },
+            {
+              label: "Plantilla",
+              players: [
+                "brrrunox",
+                "KQ4782 / tomisw79",
+                "gabfranze",
+                "ztps_18",
+                "stretline",
+                "MEJIAAAAAAHHH",
+                "Dazzzz2alt",
+                "Dartirtiturtaki",
+                "reydylan0",
+                "Ruze_SLS",
+                "nexqiroz",
+                "meliodas300ht",
+              ],
+            },
+          ],
+        },
+        Brasil: {
+          staff: [{ role: "Manager", name: "sad_hatek" }],
+          sections: [
+            { label: "Porteros", players: ["Lblp2011", "jp_12416"] },
+            {
+              label: "Defensas",
+              players: ["sad_hatek", "JurubaGato666", "Super_alguem2002JR", "S_SRocky"],
+            },
+            { label: "Mediocampistas", players: ["escrito_mito1234", "Julianopernafina2012"] },
+            { label: "Delanteros", players: ["stormy1835"] },
+          ],
+        },
+        España: {
+          staff: [{ role: "Manager", name: "FutureRivrs" }],
+          sections: [
+            { label: "Porteros", players: ["SleD45pe", "AsotaAnos1", "Rofergo"] },
+            {
+              label: "Defensas",
+              players: [
+                "lewataleTETEPALFE1",
+                "r0mannnnnnnnnnnnnn",
+                "MessiViejo5",
+                "elpelondeldaniel",
+                "mike1520nu",
+                "UNGAMER89",
+                "Angeliklolk",
+                "VinyYouGod",
+                "1leowolfmanxz",
+                "5000juanse",
+              ],
+            },
+            { label: "Mediocampistas", players: ["FutureRivrs", "z7vnn"] },
+            {
+              label: "Delanteros",
+              players: ["arshavin536", "4peerk", "sebas_zx", "mompuier", "r1osartt"],
+            },
+          ],
+        },
+        Alemania: {
+          staff: [
+            { role: "DT", name: "GetReadyForTheBattle" },
+            { role: "AT", name: "Alt_Mr15" },
+          ],
+          sections: [
+            {
+              label: "Plantilla",
+              players: [
+                "Messirobloxxdd",
+                "Gokusinlo",
+                "iSetrixz",
+                "therealcoco123x",
+                "vpamecano",
+                "charlesdbrow_2",
+                "fraanyet110",
+                "x7_MATHEUS29",
+                "YoungColdzx",
+                "GetReadyForTheBattle",
+                "Alt_Mr15",
+                "singersnowmexico",
+                "DayanePonce",
+                "santitegua4",
+                "1leowolfmanxz",
+                "Betito181234",
+                "josuchu",
+                "MEJIAAAAAAHHH",
+                "arshavin536",
+              ],
+            },
+          ],
+        },
+        Bélgica: {
+          staff: [{ role: "DT", name: "Yomayelao" }],
+          sections: [
+            {
+              label: "Plantilla",
+              players: [
+                "Tiky20203",
+                "elpeladito02",
+                "babyanyel10",
+                "CesarGamer20111",
+                "Joa2610xd",
+                "vasxz194",
+                "Marcusmarkz09",
+                "𝑨𝒍𝒈𝒙",
+                "Fyhxzz",
+                "FaZe_Sebas27",
+                "ikon_1598",
+                "☣ Sab ☣",
+                "sahirgibrain1919",
+                "Lmpavynnn",
+                "logroficcial",
+                "papisulo44",
+                "E4r6q8e",
+                "MARUTO40000",
+              ],
+            },
+          ],
+        },
+        Noruega: {
+          staff: [],
+          sections: [
+            {
+              label: "Plantilla",
+              players: [
+                "Thekind000",
+                "lenin98767",
+                "Mentalityy",
+                "auramarca",
+                "deivi_rbx",
+                "Yopuyo28",
+                "sebastiangrimaldos2",
+                "gatogamer3553",
+                "nenx",
+                "prime_cassilas1",
+                "rqzeda",
+              ],
+            },
+          ],
+        },
       };
 
       /* ══════════════════════════════════════
@@ -2631,6 +3154,43 @@
         el.innerHTML = legendHTML + tableHTML;
       }
 
+      /* ══ PLANTILLAS / ROSTERS ══ */
+      function renderRosters() {
+        const el = document.getElementById("rostersContent");
+        const order = Object.keys(GROUPS).flatMap((letter) => GROUPS[letter].map((t) => t.name));
+        const names = order.length ? order : Object.keys(ROSTERS);
+
+        el.innerHTML = `<div class="roster-grid">${names
+          .map((name) => {
+            const r = ROSTERS[name];
+            if (!r) return "";
+            const flag = flagFor(name);
+            const totalPlayers = r.sections.reduce((sum, s) => sum + s.players.length, 0);
+            const staffHTML = r.staff.length
+              ? `<div class="roster-staff">${r.staff
+                  .map((s) => `<span class="roster-staff-chip"><b>${s.role}</b>${s.name}</span>`)
+                  .join("")}</div>`
+              : "";
+            const sectionsHTML = r.sections
+              .map(
+                (s) => `
+          <div class="roster-section-label">${s.label} (${s.players.length})</div>
+          <div class="roster-players">${s.players.map((p) => `<span class="roster-player">${p}</span>`).join("")}</div>`,
+              )
+              .join("");
+            return `<div class="roster-card">
+        <div class="roster-header">
+          ${flag ? `<img class="flag-ico lg" src="${flag}" alt="">` : ""}
+          <span class="roster-team-name">${name}</span>
+          <span class="roster-count">${totalPlayers} Jugadores</span>
+        </div>
+        ${staffHTML}
+        <div class="roster-body">${sectionsHTML}</div>
+      </div>`;
+          })
+          .join("")}</div>`;
+      }
+
       /* ══ BRACKET ══ */
       function renderBrackets() {
         const el = document.getElementById("bracketsContent");
@@ -2815,6 +3375,7 @@
       renderGroups();
       renderPartidos();
       renderPosiciones();
+      renderRosters();
       renderBrackets();
     </script>
   </body>
