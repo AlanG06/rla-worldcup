@@ -1368,7 +1368,7 @@
         content: "";
         position: absolute;
         top: 50%;
-        right: 0;F
+        right: 0;
         width: 22px;
         height: 2px;
         background: rgba(245, 197, 24, 0.4);
@@ -2803,7 +2803,7 @@
             stadium: "Skyline Field",
             status: "done",
             home: { name: "Francia", score: "3", winner: true },
-            away: { name: "Peru", score: "0", winner: false },
+            away: { name: "Perú", score: "0", winner: false },
           },
           {
             stadium: "Sanctuary Lane",
@@ -2847,6 +2847,13 @@
           if (hit) return hit.flag;
         }
         return "";
+      }
+      /* Envuelve un nombre de selección con su bandera en <img>, si existe.
+   Útil para nombres "sueltos" (bracket manual) que no pasan ya por flagFor. */
+      function withFlag(name) {
+        if (!name) return name;
+        const flag = flagFor(name);
+        return flag ? `<img class="flag-ico" src="${flag}" alt=""> ${name}` : name;
       }
 
       const PENDING_HTML = `
@@ -3260,7 +3267,7 @@
                 ? (p.autoHome.flag
                     ? `<img class="flag-ico" src="${p.autoHome.flag}" alt=""> `
                     : "") + p.autoHome.name
-                : p.bk.home.name || "",
+                : withFlag(p.bk.home.name) || "",
               score: p.bk.home.score,
               winner: p.bk.home.winner,
             },
@@ -3269,7 +3276,7 @@
                 ? (p.autoAway.flag
                     ? `<img class="flag-ico" src="${p.autoAway.flag}" alt=""> `
                     : "") + p.autoAway.name
-                : p.bk.away.name || "",
+                : withFlag(p.bk.away.name) || "",
               score: p.bk.away.score,
               winner: p.bk.away.winner,
             },
@@ -3278,8 +3285,18 @@
 
         const B = {
           qf: autoQF,
-          sf: BRACKET.sf,
-          final: BRACKET.final,
+          sf: BRACKET.sf.map((m) => ({
+            stadium: m.stadium,
+            status: m.status,
+            home: { ...m.home, name: withFlag(m.home.name) },
+            away: { ...m.away, name: withFlag(m.away.name) },
+          })),
+          final: BRACKET.final.map((m) => ({
+            stadium: m.stadium,
+            status: m.status,
+            home: { ...m.home, name: withFlag(m.home.name) },
+            away: { ...m.away, name: withFlag(m.away.name) },
+          })),
           champion: BRACKET.champion,
         };
 
@@ -3353,7 +3370,7 @@
           '<div class="champion-label"><img src="WC RLA.png" alt="Campeón" height="56"></div>';
         html += '<div class="champion-card">';
         html += B.champion
-          ? '<div class="champion-name">' + B.champion + "</div>"
+          ? '<div class="champion-name">' + withFlag(B.champion) + "</div>"
           : '<div class="bt-tbd">Por definir</div>';
         html += "</div>";
         html += "</div>";
